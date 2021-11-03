@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "strictNullChecks": true,
+        "baseUrl": "src",
         "outDir": "./dist",
         "module": "commonJS",
         "target": "ES2019",
