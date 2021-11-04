@@ -1,7 +1,7 @@
 import { AddAccount } from '@/domain/usecases'
 import { EmailValidator } from '@/validations/protocots'
 import { InvalidParamError, MissingParamError } from '../errors'
-import { badRequest, serverError } from '../helpers'
+import { badRequest, serverError, successResponse } from '../helpers'
 import { Controller, HttpRequest, HttpResponse } from '../protocols'
 
 export class SignUpController implements Controller {
@@ -41,10 +41,7 @@ export class SignUpController implements Controller {
 
       const account = await this.addAccount.add({ email, name, password })
 
-      return {
-        body: account,
-        statusCode: 200
-      }
+      return successResponse(account)
     } catch (error) {
       return serverError()
     }
