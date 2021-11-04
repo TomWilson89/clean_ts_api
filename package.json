@@ -25,6 +25,7 @@
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:watch": "yarn test --watch",
     "test:staged": "yarn test --findRelatedTests"
   }
 }
