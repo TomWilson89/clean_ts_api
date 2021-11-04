@@ -5,12 +5,7 @@ import {
   ServerError
 } from '@/presentation/errors'
 import { EmailValidator } from '@/presentation/protocols'
-
-class EmailValidatorStub implements EmailValidator {
-  async isValid(email: string): Promise<boolean> {
-    return true
-  }
-}
+import { EmailValidatorStub } from './mocks'
 
 interface SutTypes {
   sut: SignUpController
