@@ -81,6 +81,24 @@ describe('SignUp controller', () => {
     )
   })
 
+  test('should return 400 if passwords do not match', async () => {
+    const { sut } = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'invalid_email',
+        password: 'any_password',
+        passwordConfirmation: 'other_password'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(
+      new InvalidParamError('passwordConfirmation')
+    )
+  })
+
   test('should return 400 if invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest
