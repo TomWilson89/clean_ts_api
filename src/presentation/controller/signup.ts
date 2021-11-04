@@ -21,11 +21,6 @@ export class SignUpController implements Controller {
         'passwordConfirmation'
       ]
 
-      const response: HttpResponse = {
-        body: {},
-        statusCode: 200
-      }
-
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
           return badRequest(new MissingParamError(field))
@@ -44,9 +39,12 @@ export class SignUpController implements Controller {
         return badRequest(new InvalidParamError('email'))
       }
 
-      await this.addAccount.add({ email, name, password })
+      const account = await this.addAccount.add({ email, name, password })
 
-      return response
+      return {
+        body: account,
+        statusCode: 200
+      }
     } catch (error) {
       return serverError()
     }
