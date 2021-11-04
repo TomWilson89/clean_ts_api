@@ -1,4 +1,4 @@
-import { EmailValidator } from '@/presentation/protocols'
+import { EmailValidator } from '@/validations/protocots'
 
 export class EmailValidatorStub implements EmailValidator {
   async isValid(email: string): Promise<boolean> {

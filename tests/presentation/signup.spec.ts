@@ -5,9 +5,8 @@ import {
   MissingParamError,
   ServerError
 } from '@/presentation/errors'
-import { EmailValidator } from '@/presentation/protocols'
-import { EmailValidatorStub } from './mocks'
-import { AddAccountStub } from './mocks/add-account'
+import { EmailValidator } from '@/validations/protocots'
+import { AddAccountStub, EmailValidatorStub } from './mocks'
 
 interface SutTypes {
   sut: SignUpController
