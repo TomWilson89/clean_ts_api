@@ -8,7 +8,6 @@ describe('Cors middleware', () => {
     })
 
     const res = await request(app).get('/test_cors')
-    console.log('res.header', res.header)
     expect(res.header['access-control-allow-origin']).toBe('*')
     expect(res.header['access-control-allow-methods']).toBe(
       'GET, POST, PUT, DELETE'
