@@ -1,4 +1,9 @@
-import { Collection, MongoClient } from 'mongodb'
+import { Collection, MongoClient, ObjectId } from 'mongodb'
+
+interface MapTypes {
+  _id: ObjectId
+  [key: string]: any
+}
 
 export const MongoHelper = {
   client: null as unknown as MongoClient,
@@ -10,7 +15,12 @@ export const MongoHelper = {
     await this.client.close()
   },
 
-  async getCollection(name: string): Promise<Collection> {
+  getCollection(name: string): Collection {
     return this.client.db().collection(name)
+  },
+
+  map: (data: MapTypes): Omit<MapTypes, '_id'> => {
+    const { _id, ...rest } = data
+    return { ...rest, id: _id.toHexString() }
   }
 }
