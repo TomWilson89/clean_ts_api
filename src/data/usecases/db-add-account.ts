@@ -1,4 +1,4 @@
-import { AddAccount, AddAccountMoodel } from '@/domain/usecases'
+import { AddAccount, AddAccountModel } from '@/domain/usecases'
 import { Encrypter } from '../protocols'
 
 export class DbAddAccount implements AddAccount {
@@ -6,7 +6,7 @@ export class DbAddAccount implements AddAccount {
     this.encrypter = encrypter
   }
 
-  async add(account: AddAccountMoodel): Promise<any> {
+  async add(account: AddAccountModel): Promise<any> {
     await this.encrypter.encrypt(account.password)
     return await Promise.resolve(null)
   }
