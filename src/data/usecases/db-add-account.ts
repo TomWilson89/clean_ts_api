@@ -1,3 +1,4 @@
+import { AccountModel } from '@/domain/models'
 import { AddAccount, AddAccountModel } from '@/domain/usecases'
 import { AddAccountRepository, Encrypter } from '../protocols'
 
@@ -10,7 +11,7 @@ export class DbAddAccount implements AddAccount {
     this.addAccountRepository = addAccountRepository
   }
 
-  async add(account: AddAccountModel): Promise<any> {
+  async add(account: AddAccountModel): Promise<AccountModel> {
     const hashedPassword = await this.encrypter.encrypt(account.password)
     const newAccount = await this.addAccountRepository.add({
       ...account,
