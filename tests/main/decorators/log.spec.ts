@@ -1,17 +1,23 @@
 import { LogControllerDecorator } from '@/main/decorators'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
-class ControllerStub implements Controller {
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const httpResponse: HttpResponse = {
-      statusCode: 200,
-      body: {
-        name: 'any_name',
-        email: 'any_mail@mail.com',
-        id: 'any_id'
-      }
+const makeHttpResponse = (): HttpResponse => {
+  return {
+    statusCode: 200,
+    body: {
+      name: 'any_name',
+      email: 'any_mail@mail.com',
+      id: 'any_id'
     }
-    return await new Promise((resolve) => resolve(httpResponse))
+  }
+}
+class ControllerStub implements Controller {
+  constructor(private readonly httpResponse: HttpResponse) {
+    this.httpResponse = httpResponse
+  }
+
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+    return this.httpResponse
   }
 }
 
@@ -20,8 +26,8 @@ interface SutTypes {
   controllerStub: Controller
 }
 
-const makeSut = (): SutTypes => {
-  const controllerStub = new ControllerStub()
+const makeSut = (httpResponse = makeHttpResponse()): SutTypes => {
+  const controllerStub = new ControllerStub(httpResponse)
   const sut = new LogControllerDecorator(controllerStub)
 
   return {
@@ -44,5 +50,19 @@ describe('LogController Decorator', () => {
     }
     await sut.handle(httpRequest)
     expect(handleSpy).toHaveBeenCalledWith(httpRequest)
+  })
+
+  test('should return the same result as controller', async () => {
+    const { sut } = makeSut()
+    const httpRequest: HttpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        name: 'any_name',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(makeHttpResponse())
   })
 })
