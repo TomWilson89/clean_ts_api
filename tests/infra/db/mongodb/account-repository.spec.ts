@@ -15,7 +15,6 @@ const makeSut = (): SutTpes => {
 
 describe('Account Mongo Repositorty', () => {
   beforeAll(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await MongoHelper.connect(process.env.MONGO_URL!)
   })
 

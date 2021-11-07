@@ -2,7 +2,6 @@ import { MongoHelper as sut } from '@/infra'
 
 describe('Mongo Helper', () => {
   beforeAll(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await sut.connect(process.env.MONGO_URL!)
   })
 
@@ -10,7 +9,7 @@ describe('Mongo Helper', () => {
     await sut.disconnect()
   })
 
-  test('should reconnect if monggodb is down', async () => {
+  test('should reconnect if mongodb is down', async () => {
     let accountCollection = await sut.getCollection('accounts')
     expect(accountCollection).toBeTruthy()
     await sut.disconnect()
