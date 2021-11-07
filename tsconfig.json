@@ -1,16 +1,9 @@
 {
   "compilerOptions": {
-    "strictNullChecks": true,
-    "baseUrl": "src",
     "outDir": "./dist",
-    "module": "commonJS",
-    "target": "ES2019",
+    "module": "commonjs",
+    "target": "es2019",
     "esModuleInterop": true,
-    "allowJs": true,
-    "paths": {
-      "@/*": ["*"],
-      "@/tests/*": ["../tests/*"]
-    }
-  },
-  "include": ["src", "tests"]
+    "allowJs": true
+  }
 }

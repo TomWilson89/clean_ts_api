@@ -1,18 +1,18 @@
-import { AccountModel } from '@/domain/models'
-import { AddAccount } from '@/domain/usecases'
-import { SignUpController } from '@/presentation/controller'
+import { AccountModel } from '../../src/domain/models'
+import { AddAccount } from '../../src/domain/usecases'
+import { SignUpController } from '../../src/presentation/controller'
 import {
   InvalidParamError,
   MissingParamError,
   ServerError
-} from '@/presentation/errors'
+} from '../../src/presentation/errors'
 import {
   badRequest,
   serverError,
   successResponse
-} from '@/presentation/helpers'
-import { HttpRequest } from '@/presentation/protocols'
-import { EmailValidator } from '@/validations/protocots'
+} from '../../src/presentation/helpers'
+import { HttpRequest } from '../../src/presentation/protocols'
+import { EmailValidator } from '../../src/validations/protocots'
 import { AddAccountStub, EmailValidatorStub } from './mocks'
 
 const makeRequest = (): HttpRequest => {

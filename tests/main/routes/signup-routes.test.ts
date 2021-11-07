@@ -1,10 +1,9 @@
-import { MongoHelper } from '@/infra'
-import app from '@/main/config/app'
 import request from 'supertest'
+import { MongoHelper } from '../../../src/infra'
+import app from '../../../src/main/config/app'
 
 describe('SignUp routes', () => {
   beforeAll(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await MongoHelper.connect(process.env.MONGO_URL!)
   })
 

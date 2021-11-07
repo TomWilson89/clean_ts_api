@@ -1,11 +1,12 @@
-import { DbAddAccount } from '@/data/usecases'
+import { DbAddAccount } from '../../data/usecases'
 import {
   AccountMongoRepository,
   BcryptAdapter,
-  EmailValidationAdapter
-} from '@/infra'
-import { SignUpController } from '@/presentation/controller'
-import { Controller } from '@/presentation/protocols'
+  EmailValidationAdapter,
+  LogMongoRepository
+} from '../../infra'
+import { SignUpController } from '../../presentation/controller'
+import { Controller } from '../../presentation/protocols'
 import { LogControllerDecorator } from '../decorators'
 
 export const makeSignUpController = (): Controller => {
@@ -18,6 +19,10 @@ export const makeSignUpController = (): Controller => {
     emailValidatorAdapter,
     dbAddAccount
   )
-  const logControllerDecorator = new LogControllerDecorator(signupController)
+  const logMongoRepository = new LogMongoRepository()
+  const logControllerDecorator = new LogControllerDecorator(
+    signupController,
+    logMongoRepository
+  )
   return logControllerDecorator
 }

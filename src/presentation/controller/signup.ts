@@ -1,5 +1,5 @@
-import { AddAccount } from '@/domain/usecases'
-import { EmailValidator } from '@/validations/protocots'
+import { AddAccount } from '../../domain/usecases'
+import { EmailValidator } from '../../validations/protocots'
 import { InvalidParamError, MissingParamError } from '../errors'
 import { badRequest, serverError, successResponse } from '../helpers'
 import { Controller, HttpRequest, HttpResponse } from '../protocols'

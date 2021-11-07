@@ -1,7 +1,11 @@
-import { LogErrorRepository } from '@/data/protocols'
-import { LogControllerDecorator } from '@/main/decorators'
-import { serverError } from '@/presentation/helpers'
-import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
+import { LogErrorRepository } from '../../../src/data/protocols'
+import { LogControllerDecorator } from '../../../src/main/decorators'
+import { serverError } from '../../../src/presentation/helpers'
+import {
+  Controller,
+  HttpRequest,
+  HttpResponse
+} from '../../../src/presentation/protocols'
 import { LogErrorRepositoryStub } from '../../data/mocks'
 
 const makeHttpResponse = (): HttpResponse => {

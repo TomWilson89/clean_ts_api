@@ -1,8 +1,8 @@
-import { AddAccountRepository, Encrypter } from '@/data/protocols'
-import { DbAddAccount } from '@/data/usecases'
-import { AccountModel } from '@/domain/models'
-import { AddAccountModel } from '@/domain/usecases'
-import { ServerError } from '@/presentation/errors'
+import { AddAccountRepository, Encrypter } from '../../../src/data/protocols'
+import { DbAddAccount } from '../../../src/data/usecases'
+import { AccountModel } from '../../../src/domain/models'
+import { AddAccountModel } from '../../../src/domain/usecases'
+import { ServerError } from '../../../src/presentation/errors'
 import { AddAccountRepositoryStub, EncrypterStub } from '../mocks'
 
 const makeFakeAccount = (): AccountModel => ({

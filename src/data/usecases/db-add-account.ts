@@ -1,5 +1,5 @@
-import { AccountModel } from '@/domain/models'
-import { AddAccount, AddAccountModel } from '@/domain/usecases'
+import { AccountModel } from '../../domain/models'
+import { AddAccount, AddAccountModel } from '../../domain/usecases'
 import { AddAccountRepository, Encrypter } from '../protocols'
 
 export class DbAddAccount implements AddAccount {

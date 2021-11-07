@@ -1,5 +1,5 @@
-import { AccountModel } from '@/domain/models'
-import { AddAccount, AddAccountModel } from '@/domain/usecases'
+import { AccountModel } from '../../../src/domain/models'
+import { AddAccount, AddAccountModel } from '../../../src/domain/usecases'
 
 export class AddAccountStub implements AddAccount {
   public account?: AddAccountModel

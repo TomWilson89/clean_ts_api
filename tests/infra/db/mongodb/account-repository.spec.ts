@@ -1,5 +1,5 @@
-import { AddAccountRepository } from '@/data/protocols'
-import { AccountMongoRepository, MongoHelper } from '@/infra'
+import { AddAccountRepository } from '../../../../src/data/protocols'
+import { AccountMongoRepository, MongoHelper } from '../../../../src/infra'
 
 interface SutTpes {
   sut: AddAccountRepository
