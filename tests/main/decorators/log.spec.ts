@@ -8,9 +8,10 @@ const makeHttpResponse = (): HttpResponse => {
   return {
     statusCode: 200,
     body: {
-      name: 'any_name',
-      email: 'any_mail@mail.com',
-      id: 'any_id'
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'valid_password'
     }
   }
 }
@@ -24,6 +25,12 @@ const makeHttpRequest = (): HttpRequest => {
       passwordConfirmation: 'any_password'
     }
   }
+}
+
+const makeFakeServerError = (): HttpResponse => {
+  const fakeError = new Error()
+  fakeError.stack = 'any_stack'
+  return serverError(fakeError)
 }
 class ControllerStub implements Controller {
   constructor(private readonly httpResponse: HttpResponse) {
@@ -71,13 +78,10 @@ describe('LogController Decorator', () => {
 
   test('should call LogErrorRepository with correct error if controller returns a server error', async () => {
     const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
-    const fakeError = new Error()
-    fakeError.stack = 'any_stack'
-    const error = serverError(fakeError)
     const logSpy = jest.spyOn(logErrorRepositoryStub, 'log')
     jest
       .spyOn(controllerStub, 'handle')
-      .mockReturnValueOnce(Promise.resolve(error))
+      .mockReturnValueOnce(Promise.resolve(makeFakeServerError()))
 
     await sut.handle(makeHttpRequest())
     expect(logSpy).toHaveBeenCalledWith('any_stack')
