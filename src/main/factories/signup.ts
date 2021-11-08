@@ -2,7 +2,6 @@ import { DbAddAccount } from '../../data/usecases'
 import {
   AccountMongoRepository,
   BcryptAdapter,
-  EmailValidationAdapter,
   LogMongoRepository
 } from '../../infra'
 import { SignUpController } from '../../presentation/controller'
@@ -12,13 +11,11 @@ import { makeSignUpValidation } from './signup-validation'
 
 export const makeSignUpController = (): Controller => {
   const salt = 12
-  const emailValidatorAdapter = new EmailValidationAdapter()
   const bcryptAdapter = new BcryptAdapter(salt)
   const addAccountRepository = new AccountMongoRepository()
   const dbAddAccount = new DbAddAccount(bcryptAdapter, addAccountRepository)
 
   const signupController = new SignUpController(
-    emailValidatorAdapter,
     dbAddAccount,
     makeSignUpValidation()
   )

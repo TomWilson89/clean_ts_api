@@ -74,9 +74,7 @@ describe('Login Controller', () => {
 
   test('should return 400 if invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
-    jest
-      .spyOn(emailValidatorStub, 'isValid')
-      .mockReturnValueOnce(Promise.resolve(false))
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = makeHttpRequest()
     httpRequest.body.email = 'inavlid_mail'
 
@@ -86,7 +84,9 @@ describe('Login Controller', () => {
 
   test('should return 500 if EmailValidator throws', async () => {
     const { sut, emailValidatorStub } = makeSut()
-    jest.spyOn(emailValidatorStub, 'isValid').mockRejectedValueOnce(false)
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementation(() => {
+      throw new ServerError('email')
+    })
     const httpRequest = makeHttpRequest()
 
     const httpResponse = await sut.handle(httpRequest)

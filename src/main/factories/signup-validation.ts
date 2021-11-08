@@ -1,6 +1,8 @@
+import { EmailValidationAdapter } from '../../infra'
 import { Validation } from '../../presentation/protocols'
 import {
   CompareFieldValidation,
+  EmailValidation,
   RequiredFieldValidation,
   ValidationComposite
 } from '../../validations/validators'
@@ -14,6 +16,8 @@ export const makeSignUpValidation = (): ValidationComposite => {
   validations.push(
     new CompareFieldValidation('password', 'passwordConfirmation')
   )
+  validations.push(new EmailValidation('email', new EmailValidationAdapter()))
+
   const validationComposite = new ValidationComposite(validations)
   return validationComposite
 }
