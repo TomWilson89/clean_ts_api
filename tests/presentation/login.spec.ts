@@ -8,6 +8,7 @@ import {
 import {
   badRequest,
   serverError,
+  successResponse,
   unauthorized
 } from '../../src/presentation/helpers'
 import { Controller, HttpRequest } from '../../src/presentation/protocols'
@@ -122,5 +123,13 @@ describe('Login Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 200 if valid credentials are provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = makeHttpRequest()
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(successResponse({ accessToken: 'any_token' }))
   })
 })
