@@ -1,7 +1,10 @@
-import { Authentication } from '../../../src/domain/usecases'
+import {
+  Authentication,
+  AuthenticationModel
+} from '../../../src/domain/usecases'
 
 export class AuthenticationStub implements Authentication {
-  async auth(email: string, password: string): Promise<string> {
+  async auth(authentication: AuthenticationModel): Promise<string> {
     return 'any_token'
   }
 }

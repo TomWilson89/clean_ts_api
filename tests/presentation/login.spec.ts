@@ -48,10 +48,10 @@ describe('Login Controller', () => {
     const httpRequest = makeHttpRequest()
 
     await sut.handle(httpRequest)
-    expect(authSpy).toHaveBeenCalledWith(
-      httpRequest.body.email,
-      httpRequest.body.password
-    )
+    expect(authSpy).toHaveBeenCalledWith({
+      email: httpRequest.body.email,
+      password: httpRequest.body.password
+    })
   })
 
   test('should return 401 if invalid credentials are provided', async () => {
