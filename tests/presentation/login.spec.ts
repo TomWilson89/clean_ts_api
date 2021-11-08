@@ -5,7 +5,11 @@ import {
   MissingParamError,
   ServerError
 } from '../../src/presentation/errors'
-import { badRequest, serverError } from '../../src/presentation/helpers'
+import {
+  badRequest,
+  serverError,
+  unauthorized
+} from '../../src/presentation/helpers'
 import { Controller, HttpRequest } from '../../src/presentation/protocols'
 import { EmailValidator } from '../../src/validations/protocots'
 import { AuthenticationStub, EmailValidatorStub } from './mocks'
@@ -98,5 +102,16 @@ describe('Login Controller', () => {
       httpRequest.body.email,
       httpRequest.body.password
     )
+  })
+
+  test('should return 401 if invalid credentials are provided', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(Promise.resolve(null))
+    const httpRequest = makeHttpRequest()
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(unauthorized())
   })
 })
