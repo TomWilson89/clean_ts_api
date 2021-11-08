@@ -1,9 +1,10 @@
-import { LoginController } from '../../src/presentation/controller/login'
+import { LoginController } from '../../src/presentation/controller'
 import {
   InvalidParamError,
-  MissingParamError
+  MissingParamError,
+  ServerError
 } from '../../src/presentation/errors'
-import { badRequest } from '../../src/presentation/helpers'
+import { badRequest, serverError } from '../../src/presentation/helpers'
 import { Controller, HttpRequest } from '../../src/presentation/protocols'
 import { EmailValidator } from '../../src/validations/protocots'
 import { EmailValidatorStub } from './mocks'
@@ -72,5 +73,14 @@ describe('Login Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
+  })
+
+  test('should return 500 if EmailValidator throws', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockRejectedValueOnce(false)
+    const httpRequest = makeHttpRequest()
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(serverError(new ServerError('email')))
   })
 })
