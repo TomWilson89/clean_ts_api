@@ -1,7 +1,12 @@
 import { Authentication } from '../../../domain/usecases'
 import { EmailValidator } from '../../../validations/protocots'
 import { InvalidParamError, MissingParamError, ServerError } from '../../errors'
-import { badRequest, serverError, unauthorized } from '../../helpers'
+import {
+  badRequest,
+  serverError,
+  successResponse,
+  unauthorized
+} from '../../helpers'
 import { Controller, HttpRequest, HttpResponse } from '../../protocols'
 
 export class LoginController implements Controller {
@@ -32,6 +37,8 @@ export class LoginController implements Controller {
       if (!accessToken) {
         return unauthorized()
       }
+
+      return successResponse({ accessToken })
     } catch (error) {
       return serverError(new ServerError())
     }
