@@ -18,4 +18,10 @@ describe('RequiredField Validation', () => {
     const error = sut.validate({ other_field: 'any_field' })
     expect(error).toEqual(new MissingParamError('field'))
   })
+
+  test('should not return if validation success', () => {
+    const { sut } = makeSut()
+    const error = sut.validate({ field: 'any_field' })
+    expect(error).toBeFalsy()
+  })
 })
