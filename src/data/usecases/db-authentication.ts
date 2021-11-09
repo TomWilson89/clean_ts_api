@@ -1,12 +1,17 @@
 import { LoadAccountByEmailRepositoryStub } from '../../../tests/data/mocks'
 import { Authentication, AuthenticationModel } from '../../domain/usecases'
-import { HashedComparer, TokenGenerator } from '../protocols'
+import {
+  HashedComparer,
+  TokenGenerator,
+  UpdateAccessTokenRepository
+} from '../protocols'
 
 export class DbAuthentication implements Authentication {
   constructor(
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepositoryStub,
     private readonly hashComparer: HashedComparer,
-    private readonly tokenGenerator: TokenGenerator
+    private readonly tokenGenerator: TokenGenerator,
+    private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {
     this.loadAccountByEmailRepository = loadAccountByEmailRepository
     this.hashComparer = hashComparer
@@ -30,6 +35,7 @@ export class DbAuthentication implements Authentication {
       return null
     }
     const accessToken = await this.tokenGenerator.generate(account.id)
+    await this.updateAccessTokenRepository.update(account.id, accessToken)
 
     return accessToken
   }
