@@ -1,11 +1,14 @@
-import { LoadAccountByEmailRepository } from '../../../src/data/protocols'
+import {
+  HashedComparer,
+  LoadAccountByEmailRepository
+} from '../../../src/data/protocols'
 import { DbAuthentication } from '../../../src/data/usecases'
 import {
   Authentication,
   AuthenticationModel
 } from '../../../src/domain/usecases'
 import { InvalidParamError } from '../../../src/presentation/errors'
-import { LoadAccountByEmailRepositoryStub } from '../mocks'
+import { HashedCompareStub, LoadAccountByEmailRepositoryStub } from '../mocks'
 
 const makeFakeAuthentication = (): AuthenticationModel => ({
   email: 'any_email@mail.com',
@@ -13,18 +16,24 @@ const makeFakeAuthentication = (): AuthenticationModel => ({
 })
 interface SutTypes {
   sut: Authentication
+  hashCompareStub: HashedComparer
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub =
     new LoadAccountByEmailRepositoryStub()
+  const hashCompareStub = new HashedCompareStub()
 
-  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub)
+  const sut = new DbAuthentication(
+    loadAccountByEmailRepositoryStub,
+    hashCompareStub
+  )
 
   return {
     sut,
-    loadAccountByEmailRepositoryStub
+    loadAccountByEmailRepositoryStub,
+    hashCompareStub
   }
 }
 
@@ -32,8 +41,9 @@ describe('DbAuthentication usecase', () => {
   test('should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
-    await sut.auth(makeFakeAuthentication())
-    expect(loadSpy).toHaveBeenCalledWith('any_email@mail.com')
+    const authenticationRequest = makeFakeAuthentication()
+    await sut.auth(authenticationRequest)
+    expect(loadSpy).toHaveBeenCalledWith(authenticationRequest.email)
   })
 
   test('should throw if LoadAccountByEmailRepository throws', async () => {
@@ -54,5 +64,17 @@ describe('DbAuthentication usecase', () => {
 
     const accessToken = await sut.auth(makeFakeAuthentication())
     expect(accessToken).toBeNull()
+  })
+
+  test('should call HashCompare with correct values', async () => {
+    const { sut, hashCompareStub } = makeSut()
+    const compareSpy = jest.spyOn(hashCompareStub, 'compare')
+
+    const authenticationRequest = makeFakeAuthentication()
+    await sut.auth(authenticationRequest)
+    expect(compareSpy).toHaveBeenCalledWith(
+      authenticationRequest.password,
+      'hashed_password'
+    )
   })
 })
