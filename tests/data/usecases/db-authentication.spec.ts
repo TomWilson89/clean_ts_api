@@ -7,7 +7,10 @@ import {
   Authentication,
   AuthenticationModel
 } from '../../../src/domain/usecases'
-import { InvalidParamError } from '../../../src/presentation/errors'
+import {
+  InvalidParamError,
+  ServerError
+} from '../../../src/presentation/errors'
 import { HashedCompareStub, LoadAccountByEmailRepositoryStub } from '../mocks'
 
 const makeFakeAuthentication = (): AuthenticationModel => ({
@@ -76,5 +79,13 @@ describe('DbAuthentication usecase', () => {
       authenticationRequest.password,
       'hashed_password'
     )
+  })
+
+  test('should throw if HashCompare throws', async () => {
+    const { sut, hashCompareStub } = makeSut()
+    const error = new ServerError('any_field')
+    jest.spyOn(hashCompareStub, 'compare').mockRejectedValueOnce(error)
+    const promise = sut.auth(makeFakeAuthentication())
+    await expect(promise).rejects.toThrow()
   })
 })
