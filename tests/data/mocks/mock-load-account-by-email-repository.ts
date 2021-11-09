@@ -4,7 +4,7 @@ import { AccountModel } from '../../../src/domain/models'
 export class LoadAccountByEmailRepositoryStub
   implements LoadAccountByEmailRepository
 {
-  async load(email: string): Promise<AccountModel> {
+  async loadByEmail(email: string): Promise<AccountModel> {
     const account: AccountModel = {
       id: 'valid_id',
       name: 'valid_name',
