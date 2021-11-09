@@ -1,14 +1,14 @@
-import { LoadAccountByEmailRepositoryStub } from '../../../tests/data/mocks'
 import { Authentication, AuthenticationModel } from '../../domain/usecases'
 import {
   HashedComparer,
+  LoadAccountByEmailRepository,
   TokenGenerator,
   UpdateAccessTokenRepository
 } from '../protocols'
 
 export class DbAuthentication implements Authentication {
   constructor(
-    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepositoryStub,
+    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hashComparer: HashedComparer,
     private readonly tokenGenerator: TokenGenerator,
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
