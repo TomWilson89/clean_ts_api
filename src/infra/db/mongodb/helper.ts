@@ -1,9 +1,5 @@
-import { Collection, MongoClient, ObjectId } from 'mongodb'
-
-interface MapTypes {
-  _id: ObjectId
-  [key: string]: any
-}
+import { Collection, MongoClient } from 'mongodb'
+import { AccountModel } from '../../../domain/models'
 
 export const MongoHelper = {
   client: null as unknown as MongoClient,
@@ -25,7 +21,7 @@ export const MongoHelper = {
     return this.client.db().collection(name)
   },
 
-  map: (data: MapTypes): Omit<MapTypes, '_id'> => {
+  map: (data: any): AccountModel => {
     const { _id, ...rest } = data
     return { ...rest, id: _id.toHexString() }
   }
