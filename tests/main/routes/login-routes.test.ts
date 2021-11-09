@@ -46,5 +46,14 @@ describe('Login routes', () => {
 
       expect(res.status).toBe(200)
     })
+
+    test('should return 401 on login', async () => {
+      const res = await request(app).post('/api/login').send({
+        email: 'john@mail.com',
+        password: '123456'
+      })
+
+      expect(res.status).toBe(401)
+    })
   })
 })
