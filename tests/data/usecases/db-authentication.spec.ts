@@ -1,7 +1,8 @@
 import {
   HashedComparer,
   LoadAccountByEmailRepository,
-  TokenGenerator
+  TokenGenerator,
+  UpdateAccessTokenRepository
 } from '../../../src/data/protocols'
 import { DbAuthentication } from '../../../src/data/usecases'
 import {
@@ -15,7 +16,8 @@ import {
 import {
   HashedCompareStub,
   LoadAccountByEmailRepositoryStub,
-  TokenGeneratorStub
+  TokenGeneratorStub,
+  UpdateAccessTokenRepositoryStub
 } from '../mocks'
 
 const makeFakeAuthentication = (): AuthenticationModel => ({
@@ -26,6 +28,7 @@ interface SutTypes {
   sut: Authentication
   hashCompareStub: HashedComparer
   tokenGeneratorStub: TokenGenerator
+  updateAccessTokenRepositoryStub: UpdateAccessTokenRepository
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
 }
 
@@ -33,19 +36,22 @@ const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub =
     new LoadAccountByEmailRepositoryStub()
   const hashCompareStub = new HashedCompareStub()
+  const updateAccessTokenRepositoryStub = new UpdateAccessTokenRepositoryStub()
   const tokenGeneratorStub = new TokenGeneratorStub()
 
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
-    tokenGeneratorStub
+    tokenGeneratorStub,
+    updateAccessTokenRepositoryStub
   )
 
   return {
     sut,
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
-    tokenGeneratorStub
+    tokenGeneratorStub,
+    updateAccessTokenRepositoryStub
   }
 }
 
@@ -130,6 +136,15 @@ describe('DbAuthentication usecase', () => {
 
     const authenticationRequest = makeFakeAuthentication()
     const accessToken = await sut.auth(authenticationRequest)
-    expect(accessToken).toBe('any_token')
+    expect(accessToken).toBe('valid_token')
+  })
+
+  test('should call UpdateAccessTokenRepository with correct values', async () => {
+    const { sut, updateAccessTokenRepositoryStub } = makeSut()
+    const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'update')
+
+    const authenticationRequest = makeFakeAuthentication()
+    await sut.auth(authenticationRequest)
+    expect(updateSpy).toHaveBeenCalledWith('valid_id', 'valid_token')
   })
 })

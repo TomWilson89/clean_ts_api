@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/brace-style */
-/* eslint-disable @typescript-eslint/indent */
 import { LoadAccountByEmailRepository } from '../../../src/data/protocols'
 import { AccountModel } from '../../../src/domain/models'
 
