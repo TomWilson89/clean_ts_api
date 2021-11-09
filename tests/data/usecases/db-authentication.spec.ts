@@ -1,6 +1,6 @@
 import {
   Encrypter,
-  HashedComparer,
+  HashComparer,
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository
 } from '../../../src/data/protocols'
@@ -15,7 +15,7 @@ import {
 } from '../../../src/presentation/errors'
 import {
   EncrypterStub,
-  HashedCompareStub,
+  HashCompareStub,
   LoadAccountByEmailRepositoryStub,
   UpdateAccessTokenRepositoryStub
 } from '../mocks'
@@ -26,7 +26,7 @@ const makeFakeAuthentication = (): AuthenticationModel => ({
 })
 interface SutTypes {
   sut: Authentication
-  hashCompareStub: HashedComparer
+  hashCompareStub: HashComparer
   encrypterStub: Encrypter
   updateAccessTokenRepositoryStub: UpdateAccessTokenRepository
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
@@ -35,7 +35,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub =
     new LoadAccountByEmailRepositoryStub()
-  const hashCompareStub = new HashedCompareStub()
+  const hashCompareStub = new HashCompareStub()
   const updateAccessTokenRepositoryStub = new UpdateAccessTokenRepositoryStub()
   const encrypterStub = new EncrypterStub()
 

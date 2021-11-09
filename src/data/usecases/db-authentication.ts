@@ -1,7 +1,7 @@
 import { Authentication, AuthenticationModel } from '../../domain/usecases'
 import {
   Encrypter,
-  HashedComparer,
+  HashComparer,
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository
 } from '../protocols'
@@ -9,7 +9,7 @@ import {
 export class DbAuthentication implements Authentication {
   constructor(
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
-    private readonly hashComparer: HashedComparer,
+    private readonly hashComparer: HashComparer,
     private readonly encrypt: Encrypter,
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {

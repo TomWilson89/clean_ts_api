@@ -1,6 +1,6 @@
-import { HashedComparer } from '../../../src/data/protocols'
+import { HashComparer } from '../../../src/data/protocols'
 
-export class HashedCompareStub implements HashedComparer {
+export class HashCompareStub implements HashComparer {
   async compare(password: string, hash: string): Promise<boolean> {
     return await Promise.resolve(true)
   }
