@@ -37,9 +37,7 @@ const makeFakeServerError = (): HttpResponse => {
   return serverError(fakeError)
 }
 class ControllerStub implements Controller {
-  constructor(private readonly httpResponse: HttpResponse) {
-    this.httpResponse = httpResponse
-  }
+  constructor(private readonly httpResponse: HttpResponse) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     return this.httpResponse
