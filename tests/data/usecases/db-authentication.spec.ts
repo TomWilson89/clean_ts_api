@@ -4,6 +4,7 @@ import {
   Authentication,
   AuthenticationModel
 } from '../../../src/domain/usecases'
+import { InvalidParamError } from '../../../src/presentation/errors'
 import { LoadAccountByEmailRepositoryStub } from '../mocks'
 
 const makeFakeAuthentication = (): AuthenticationModel => ({
@@ -33,5 +34,15 @@ describe('DbAuthentication usecase', () => {
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
     await sut.auth(makeFakeAuthentication())
     expect(loadSpy).toHaveBeenCalledWith('any_email@mail.com')
+  })
+
+  test('should throw if LoadAccountByEmailRepository throws', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+    const error = new InvalidParamError('any_field')
+    jest
+      .spyOn(loadAccountByEmailRepositoryStub, 'load')
+      .mockRejectedValueOnce(error)
+    const promise = sut.auth(makeFakeAuthentication())
+    await expect(promise).rejects.toThrow()
   })
 })
