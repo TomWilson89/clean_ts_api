@@ -7,7 +7,7 @@ import {
 import { SignUpController } from '../../../presentation/controller'
 import { Controller } from '../../../presentation/protocols'
 import { LogControllerDecorator } from '../../decorators'
-import { makeSignUpValidation } from './signup-validation'
+import { makeSignUpValidation } from './signup-validation-factory'
 
 export const makeSignUpController = (): Controller => {
   const salt = 12

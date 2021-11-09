@@ -52,7 +52,6 @@ describe('Account Mongo Repositorty', () => {
       await accountColletion.insertOne(user)
 
       const account = await sut.loadByEmail(user.email)
-      console.log('account', account)
 
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
@@ -65,7 +64,6 @@ describe('Account Mongo Repositorty', () => {
       const { sut } = makeSut()
 
       const account = await sut.loadByEmail('any_mail@mail.com')
-      console.log('account', account)
 
       expect(account).toBeFalsy()
     })
@@ -84,7 +82,6 @@ describe('Account Mongo Repositorty', () => {
 
       await sut.updateAccessToken(fakeAccount._id, 'any_token')
       const account = await accountColletion.findOne({ _id: res.insertedId })
-      console.log('account', account)
 
       expect(account).toBeTruthy()
       expect(account.accessToken).toBe('any_token')
