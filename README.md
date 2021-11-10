@@ -6,7 +6,7 @@
 docker build -t <name of project> .
 ```
 
-### Run container in interactive mode 
+### Run container in interactive mode
 
 ```bash
 docker run -it <name of project> sh
@@ -16,4 +16,16 @@ docker run -it <name of project> sh
 
 ```bash
 docker run -p PORT:PORT <name of project>
+```
+
+### Check how much memory docker is taking
+
+```bash
+docker system df
+```
+
+#### and prune it
+
+```bash
+docker system prune
 ```
