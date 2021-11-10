@@ -2,14 +2,13 @@ version: '3'
 services:
   mongo:
     container_name: mongo-container
+    networks:
+      - mongo-api
     image: mongo:4
     ports:
       - '27017:27017'
     volumes:
       - ./data/db:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
     restart: always
   api:
     container_name: api-container
@@ -28,3 +27,7 @@ services:
     restart: always
     depends_on:
       - mongo
+    networks:
+      - mongo-api
+networks:
+  mongo-api:
