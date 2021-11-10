@@ -32,7 +32,8 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "docker:up": "yarn build && docker-compose up -d",
+    "debug": "node --inspect=0.0.0.0:9222 --nolazy dist/main/server.js",
+    "docker:up": "yarn build && docker-compose up",
     "docker:down": "docker compose down",
     "prepare": "husky install",
     "lint": "eslint .",
