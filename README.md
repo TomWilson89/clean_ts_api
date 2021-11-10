@@ -29,3 +29,27 @@ docker system df
 ```bash
 docker system prune
 ```
+
+### Stop all container
+
+```bash
+docker stop $(docker ps -aq)
+```
+
+### Delete all container
+
+```bash
+docker rm $(docker ps -aq)
+```
+
+### Remove all images
+
+```bash
+docker rmi $(docker images -q)
+```
+
+### Remove all volumes
+
+```bash
+docker volume rm $(docker volume ls -q)
+```
