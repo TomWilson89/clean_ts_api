@@ -1,5 +1,11 @@
 import { AddAccount, Authentication } from '../../../domain/usecases'
-import { badRequest, serverError, successResponse } from '../../helpers'
+import { EmailInUseError } from '../../errors'
+import {
+  badRequest,
+  forbidden,
+  serverError,
+  successResponse
+} from '../../helpers'
 import {
   Controller,
   HttpRequest,
@@ -24,7 +30,11 @@ export class SignUpController implements Controller {
 
       const { password, email, name } = httpRequest.body
 
-      await this.addAccount.add({ email, name, password })
+      const account = await this.addAccount.add({ email, name, password })
+
+      if (!account) {
+        return forbidden(new EmailInUseError())
+      }
       const accessToken = await this.authentication.auth({
         email,
         password
