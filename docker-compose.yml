@@ -12,9 +12,8 @@ services:
     restart: always
   api:
     container_name: api-container
-    build:
-      context: .
-    image: clean-node-api
+    image: node:14
+    working_dir: /usr/src/clean-node-api
     ports:
       - '4000:4000'
       - '9222:9222'
