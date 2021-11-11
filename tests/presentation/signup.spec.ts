@@ -1,4 +1,3 @@
-import { AccountModel } from '../../src/domain/models'
 import { AddAccount, Authentication } from '../../src/domain/usecases'
 import { SignUpController } from '../../src/presentation/controller'
 import { MissingParamError, ServerError } from '../../src/presentation/errors'
@@ -20,13 +19,6 @@ const makeHttpRequest = (): HttpRequest => {
     }
   }
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'valid_password'
-})
 
 interface SutTypes {
   sut: SignUpController
@@ -83,7 +75,7 @@ describe('SignUp controller', () => {
       const httpRequest = makeHttpRequest()
 
       const httpResponse = await sut.handle(httpRequest)
-      expect(httpResponse).toEqual(successResponse(makeFakeAccount()))
+      expect(httpResponse.statusCode).toBe(200)
     })
 
     test('should call Validation with correct values', async () => {
@@ -126,6 +118,16 @@ describe('SignUp controller', () => {
 
       const httpResponse = await sut.handle(httpRequest)
       expect(httpResponse).toEqual(serverError(new Error()))
+    })
+
+    test('should return 200 if valid credentials are provided', async () => {
+      const { sut } = makeSut()
+      const httpRequest = makeHttpRequest()
+
+      const httpResponse = await sut.handle(httpRequest)
+      expect(httpResponse).toEqual(
+        successResponse({ accessToken: 'any_token' })
+      )
     })
   })
 })
