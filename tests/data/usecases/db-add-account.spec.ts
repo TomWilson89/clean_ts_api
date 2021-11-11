@@ -1,9 +1,17 @@
-import { AddAccountRepository, Hasher } from '../../../src/data/protocols'
+import {
+  AddAccountRepository,
+  Hasher,
+  LoadAccountByEmailRepository
+} from '../../../src/data/protocols'
 import { DbAddAccount } from '../../../src/data/usecases'
 import { AccountModel } from '../../../src/domain/models'
 import { AddAccountModel } from '../../../src/domain/usecases'
 import { ServerError } from '../../../src/presentation/errors'
-import { AddAccountRepositoryStub, HasherStub } from '../mocks'
+import {
+  AddAccountRepositoryStub,
+  HasherStub,
+  LoadAccountByEmailRepositoryStub
+} from '../mocks'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -21,21 +29,37 @@ interface SutTypes {
   sut: DbAddAccount
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository
+  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
 }
 
 const makeSut = (): SutTypes => {
   const hasherStub = new HasherStub()
   const addAccountRepositoryStub = new AddAccountRepositoryStub()
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub)
+  const loadAccountByEmailRepositoryStub =
+    new LoadAccountByEmailRepositoryStub()
+  const sut = new DbAddAccount(
+    hasherStub,
+    addAccountRepositoryStub,
+    loadAccountByEmailRepositoryStub
+  )
 
   return {
     sut,
     hasherStub,
-    addAccountRepositoryStub
+    addAccountRepositoryStub,
+    loadAccountByEmailRepositoryStub
   }
 }
 
 describe('DbAddAccount usecase', () => {
+  test('should call LoadAccountByEmailRepository with correct email', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+    const accountData = makeFakeAccountData()
+    await sut.add(accountData)
+    expect(loadSpy).toHaveBeenCalledWith(accountData.email)
+  })
+
   test('should call Hasher with correct password ', async () => {
     const { sut, hasherStub } = makeSut()
     const hashSpy = jest.spyOn(hasherStub, 'hash')
