@@ -6,7 +6,10 @@ import {
 import { DbAddAccount } from '../../../src/data/usecases'
 import { AccountModel } from '../../../src/domain/models'
 import { AddAccountModel } from '../../../src/domain/usecases'
-import { ServerError } from '../../../src/presentation/errors'
+import {
+  InvalidParamError,
+  ServerError
+} from '../../../src/presentation/errors'
 import {
   AddAccountRepositoryStub,
   HasherStub,
@@ -58,6 +61,17 @@ describe('DbAddAccount usecase', () => {
     const accountData = makeFakeAccountData()
     await sut.add(accountData)
     expect(loadSpy).toHaveBeenCalledWith(accountData.email)
+  })
+
+  test('should throw if LoadAccountByEmailRepository throws', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+    const error = new InvalidParamError('any_field')
+    jest
+      .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+      .mockRejectedValueOnce(error)
+    const accountData = makeFakeAccountData()
+    const promise = sut.add(accountData)
+    await expect(promise).rejects.toThrow()
   })
 
   test('should call Hasher with correct password ', async () => {
