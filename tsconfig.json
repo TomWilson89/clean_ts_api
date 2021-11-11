@@ -6,7 +6,6 @@
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
-    "baseUrl": "src",
     "rootDirs": ["src", "tests"]
   },
   "include": ["src", "tests"],
