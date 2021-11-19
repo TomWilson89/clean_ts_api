@@ -1,5 +1,6 @@
 import { AddSurvey } from '../../domain/usecases'
-import { badRequest } from '../helpers'
+import { ServerError } from '../errors'
+import { badRequest, serverError } from '../helpers'
 import { Controller, HttpRequest, HttpResponse, Validation } from '../protocols'
 
 export class AddSurveyController implements Controller {
@@ -24,7 +25,7 @@ export class AddSurveyController implements Controller {
       })
       return null
     } catch (error) {
-      return null
+      return serverError(new ServerError())
     }
   }
 }
