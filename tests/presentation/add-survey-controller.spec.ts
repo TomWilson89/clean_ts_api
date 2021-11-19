@@ -1,6 +1,6 @@
 import { AddSurveyController } from '../../src/presentation/controller'
 import { MissingParamError } from '../../src/presentation/errors'
-import { badRequest } from '../../src/presentation/helpers'
+import { badRequest, serverError } from '../../src/presentation/helpers'
 import { AddSurvey } from '../domain/usecases'
 import { AddSurveyStub, ValidationStub } from './mocks'
 import { Controller, HttpRequest, Validation } from './protocols'
@@ -62,5 +62,13 @@ describe('AddSurveyController', () => {
     const httpRequest = makeHttpRequest()
     await sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+  })
+
+  test('should return 500 if AddSurvey throws', async () => {
+    const { sut, addSurveyStub } = makeSut()
+    jest.spyOn(addSurveyStub, 'add').mockRejectedValueOnce(new Error())
+    const httpRequest = makeHttpRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
