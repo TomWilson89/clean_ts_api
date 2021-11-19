@@ -38,6 +38,6 @@ describe('AddSurveyController', () => {
     const { sut, validationStub } = makeSut()
     const validationSpy = jest.spyOn(validationStub, 'validate')
     await sut.handle(makeHttpRequest())
-    expect(validationSpy).toHaveBeenCalledWith(makeHttpRequest())
+    expect(validationSpy).toHaveBeenCalledWith(makeHttpRequest().body)
   })
 })
