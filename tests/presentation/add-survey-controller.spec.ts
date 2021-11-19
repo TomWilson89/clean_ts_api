@@ -1,6 +1,10 @@
 import { AddSurveyController } from '../../src/presentation/controller'
 import { MissingParamError } from '../../src/presentation/errors'
-import { badRequest, serverError } from '../../src/presentation/helpers'
+import {
+  badRequest,
+  noContent,
+  serverError
+} from '../../src/presentation/helpers'
 import { AddSurvey } from '../domain/usecases'
 import { AddSurveyStub, ValidationStub } from './mocks'
 import { Controller, HttpRequest, Validation } from './protocols'
@@ -70,5 +74,12 @@ describe('AddSurveyController', () => {
     const httpRequest = makeHttpRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 204 on success', async () => {
+    const { sut } = makeSut()
+    const httpRequest = makeHttpRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(noContent())
   })
 })
