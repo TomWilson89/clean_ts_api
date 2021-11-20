@@ -8,6 +8,11 @@ const makeFakeUser = (): AddAccountModel => ({
   password: 'any_password'
 })
 
+const mkaeFakeUserWithToken = (): any => ({
+  ...makeFakeUser(),
+  accessToken: 'any_token'
+})
+
 interface SutTpes {
   sut: AccountMongoRepository
 }
@@ -85,6 +90,22 @@ describe('Account Mongo Repositorty', () => {
 
       expect(account).toBeTruthy()
       expect(account.accessToken).toBe('any_token')
+    })
+  })
+
+  describe('loadByToken', () => {
+    test('should return an account on success withour role', async () => {
+      const { sut } = makeSut()
+      const user = mkaeFakeUserWithToken()
+      await accountColletion.insertOne(user)
+
+      const account = await sut.loadByToken(user.accessToken)
+
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(user.name)
+      expect(account.email).toBe(user.email)
+      expect(account.password).toBe(user.password)
     })
   })
 })
