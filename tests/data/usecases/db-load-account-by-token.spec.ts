@@ -3,8 +3,16 @@ import {
   LoadAccountByTokenRepository
 } from '../../../src/data/protocols'
 import { DbLoadAccountByToken } from '../../../src/data/usecases'
+import { AccountModel } from '../../../src/domain/models'
 import { LoadAccountByToken } from '../../../src/domain/usecases'
 import { DecryypterStub, LoadAccountByTokenRepositoryStub } from '../mocks'
+
+const makeFakeAccount = (): AccountModel => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  email: 'valid_email@mail.com',
+  password: 'hashed_password'
+})
 
 interface SutTypes {
   sut: LoadAccountByToken
@@ -62,5 +70,11 @@ describe('DbLoadAccountByToken Usecase', () => {
       .mockReturnValueOnce(Promise.resolve(null))
     const account = await sut.load('any_token', 'any_role')
     expect(account).toBeNull()
+  })
+
+  test('should return an account on success', async () => {
+    const { sut } = makeSut()
+    const account = await sut.load('any_token', 'any_role')
+    expect(account).toEqual(makeFakeAccount())
   })
 })
