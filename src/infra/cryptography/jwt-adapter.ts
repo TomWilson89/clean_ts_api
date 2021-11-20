@@ -11,8 +11,8 @@ export class JwtAdapter implements JwtTypes {
     return token
   }
 
-  async decrypt(value: string): Promise<string> {
-    await jwt.verify(value, this.secret)
-    return null
+  async decrypt(token: string): Promise<string> {
+    const value = (await jwt.verify(token, this.secret)) as string
+    return value
   }
 }
