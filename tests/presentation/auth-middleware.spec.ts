@@ -1,6 +1,10 @@
 import { LoadAccountByToken } from '../../src/domain/usecases'
 import { AccessDeniedError } from '../../src/presentation/errors'
-import { forbidden, successResponse } from '../../src/presentation/helpers'
+import {
+  forbidden,
+  serverError,
+  successResponse
+} from '../../src/presentation/helpers'
 import { AuthMiddleware } from '../../src/presentation/middlewares'
 import { HttpRequest, Middleware } from '../../src/presentation/protocols'
 import { LoadAccountByTokenStub } from './mocks'
@@ -55,5 +59,14 @@ describe('Auth Middleware', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeHttpRequest())
     expect(httpResponse).toEqual(successResponse({ accountId: 'valid_id' }))
+  })
+
+  test('should return 50 if LoadAccountByToken throws', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut()
+    jest
+      .spyOn(loadAccountByTokenStub, 'load')
+      .mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(makeHttpRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
