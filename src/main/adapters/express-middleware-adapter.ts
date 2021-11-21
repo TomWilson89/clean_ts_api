@@ -8,7 +8,7 @@ export const adaptMiddleware = (middleware: Middleware): RequestHandler => {
     }
     const httpResponse = await middleware.handle(httpRequest)
     if (httpResponse.statusCode === 200) {
-      req.user = httpResponse.body
+      Object.assign(req, httpResponse.body)
       next()
     } else {
       res.status(httpResponse.statusCode).json({
