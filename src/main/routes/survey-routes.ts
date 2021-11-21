@@ -1,7 +1,9 @@
 import { Router } from 'express'
-import { adaptRoute } from '../adapters/express-route-adapter'
+import { adaptMiddleware, adaptRoute } from '../adapters'
 import { makeAddSurveyController } from '../factories'
+import { makeAuthMiddleware } from '../factories/middlewares'
 
 export default (router: Router): void => {
-  router.post('/surveys', adaptRoute(makeAddSurveyController()))
+  const adminAuth = adaptMiddleware(makeAuthMiddleware('admin'))
+  router.post('/surveys', adminAuth, adaptRoute(makeAddSurveyController()))
 }
