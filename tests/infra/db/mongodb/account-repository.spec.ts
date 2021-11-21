@@ -8,7 +8,7 @@ const makeFakeUser = (): AddAccountModel => ({
   password: 'any_password'
 })
 
-const mkaeFakeUserWithToken = (): any => ({
+const makeFakeUserWithToken = (): any => ({
   ...makeFakeUser(),
   accessToken: 'any_token'
 })
@@ -96,7 +96,7 @@ describe('Account Mongo Repositorty', () => {
   describe('loadByToken', () => {
     test('should return an account on success without role', async () => {
       const { sut } = makeSut()
-      const user = mkaeFakeUserWithToken()
+      const user = makeFakeUserWithToken()
       await accountColletion.insertOne(user)
 
       const account = await sut.loadByToken(user.accessToken)
@@ -108,14 +108,40 @@ describe('Account Mongo Repositorty', () => {
       expect(account.password).toBe(user.password)
     })
 
-    test('should return an account on success with role', async () => {
+    test('should return an account on success with admin role', async () => {
       const { sut } = makeSut()
-      const user = mkaeFakeUserWithToken()
-      const role = 'any_role'
+      const user = makeFakeUserWithToken()
+      const role = 'admin'
       user.role = role
       await accountColletion.insertOne({ ...user, role })
 
-      const account = await sut.loadByToken(user.accessToken, user.role)
+      const account = await sut.loadByToken(user.accessToken, 'admin')
+
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(user.name)
+      expect(account.email).toBe(user.email)
+      expect(account.password).toBe(user.password)
+    })
+
+    test('should return null wiht invalid role', async () => {
+      const { sut } = makeSut()
+      const user = makeFakeUserWithToken()
+      await accountColletion.insertOne(user)
+
+      const account = await sut.loadByToken(user.accessToken, 'admin')
+
+      expect(account).toBeFalsy()
+    })
+
+    test('should return an account on success with id user is admin', async () => {
+      const { sut } = makeSut()
+      const user = makeFakeUserWithToken()
+      const role = 'admin'
+      user.role = role
+      await accountColletion.insertOne({ ...user, role })
+
+      const account = await sut.loadByToken(user.accessToken)
 
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
