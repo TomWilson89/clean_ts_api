@@ -33,10 +33,10 @@ describe('Survey routes', () => {
   })
 
   describe('POST /surveys', () => {
-    test('should return 204 on  add survey success', async () => {
+    test('should return 403 on add survey without access token', async () => {
       const res = await request(app).post('/api/surveys').send(fakeSurvey)
 
-      expect(res.status).toBe(204)
+      expect(res.status).toBe(403)
     })
   })
 })
