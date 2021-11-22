@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import { AddSurveyRepository } from '../../../src/data/protocols/db/surveys'
+import { AddSurveyRepository } from '../../../src/data/protocols/'
 import { DbAddSurvey } from '../../../src/data/usecases'
 import { AddSurvey, AddSurveyModel } from '../../../src/domain/usecases'
 import { ServerError } from '../../../src/presentation/errors'

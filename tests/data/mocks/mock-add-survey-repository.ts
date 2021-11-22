@@ -1,4 +1,4 @@
-import { AddSurveyRepository } from '../../../src/data/protocols/db/surveys'
+import { AddSurveyRepository } from '../../../src/data/protocols/'
 import { AddSurveyModel } from '../../../src/domain/usecases'
 
 export class AddSurveyRepositoryStub implements AddSurveyRepository {
