@@ -1,12 +1,16 @@
 import { LoadSurveys } from '../../domain/usecases'
-import { successResponse } from '../helpers'
+import { serverError, successResponse } from '../helpers'
 import { Controller, HttpRequest, HttpResponse } from '../protocols'
 
 export class LoadSurveysController implements Controller {
   constructor(private readonly loadSurveys: LoadSurveys) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const surveys = await this.loadSurveys.load()
+    try {
+      const surveys = await this.loadSurveys.load()
 
-    return successResponse(surveys)
+      return successResponse(surveys)
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
