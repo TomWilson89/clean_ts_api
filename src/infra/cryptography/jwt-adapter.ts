@@ -1,5 +1,5 @@
+import { Decrypter, Encrypter } from '@data/protocols'
 import jwt from 'jsonwebtoken'
-import { Decrypter, Encrypter } from '../../data/protocols'
 
 type JwtTypes = Encrypter & Decrypter
 

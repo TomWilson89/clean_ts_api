@@ -1,10 +1,7 @@
-import {
-  Decrypter,
-  LoadAccountByTokenRepository
-} from '../../../src/data/protocols'
-import { DbLoadAccountByToken } from '../../../src/data/usecases'
-import { AccountModel } from '../../../src/domain/models'
-import { LoadAccountByToken } from '../../../src/domain/usecases'
+import { Decrypter, LoadAccountByTokenRepository } from '@data/protocols'
+import { DbLoadAccountByToken } from '@data/usecases'
+import { AccountModel } from '@domain/models'
+import { LoadAccountByToken } from '@domain/usecases'
 import { DecryypterStub, LoadAccountByTokenRepositoryStub } from '../mocks'
 
 const makeFakeAccount = (): AccountModel => ({

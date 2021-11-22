@@ -1,17 +1,13 @@
-import { Authentication } from '../../src/domain/usecases'
-import { LoginController } from '../../src/presentation/controller'
-import { MissingParamError } from '../../src/presentation/errors'
+import { Authentication } from '@domain/usecases'
+import { LoginController } from '@presentation/controller'
+import { MissingParamError } from '@presentation/errors'
 import {
   badRequest,
   serverError,
   successResponse,
   unauthorized
-} from '../../src/presentation/helpers'
-import {
-  Controller,
-  HttpRequest,
-  Validation
-} from '../../src/presentation/protocols'
+} from '@presentation/helpers'
+import { Controller, HttpRequest, Validation } from '@presentation/protocols'
 import { AuthenticationStub, ValidationStub } from './mocks'
 
 const makeHttpRequest = (): HttpRequest => {

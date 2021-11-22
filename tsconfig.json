@@ -6,7 +6,18 @@
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
-    "rootDirs": ["src", "tests"]
+    "rootDirs": ["src", "tests"],
+    "baseUrl": "src",
+    "paths": {
+      "@/tests/*": ["../tests/*"],
+      "@infra/*": ["infra/*"],
+      "@domain/*": ["domain/*"],
+      "@presentation/*": ["presentation/*"],
+      "@data/*": ["data/*"],
+      "@validations/*": ["validations/*"],
+      "@main/*": ["main/*"]
+
+    }
   },
   "include": ["src", "tests"],
   "exclude": []

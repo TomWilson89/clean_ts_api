@@ -1,5 +1,5 @@
-import { AuthMiddleware } from '../../../presentation/middlewares'
-import { Middleware } from '../../../presentation/protocols'
+import { AuthMiddleware } from '@presentation/middlewares'
+import { Middleware } from '@presentation/protocols'
 import { makeDbLoadAccountByToken } from '../usecase'
 
 export const makeAuthMiddleware = (role?: string): Middleware => {

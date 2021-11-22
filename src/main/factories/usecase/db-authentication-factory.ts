@@ -1,10 +1,7 @@
-import { DbAuthentication } from '../../../data/usecases'
-import { Authentication } from '../../../domain/usecases'
-import {
-  AccountMongoRepository,
-  BcryptAdapter,
-  JwtAdapter
-} from '../../../infra'
+import { DbAuthentication } from '@data/usecases'
+import { Authentication } from '@domain/usecases'
+import { BcryptAdapter, JwtAdapter } from '@infra/cryptography'
+import { AccountMongoRepository } from '@infra/db'
 import env from '../../config/env'
 
 export const makeAuthentication = (): Authentication => {

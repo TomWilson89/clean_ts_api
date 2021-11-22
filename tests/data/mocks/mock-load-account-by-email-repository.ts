@@ -1,5 +1,5 @@
-import { LoadAccountByEmailRepository } from '../../../src/data/protocols'
-import { AccountModel } from '../../../src/domain/models'
+import { LoadAccountByEmailRepository } from '@data/protocols'
+import { AccountModel } from '@domain/models'
 
 export class LoadAccountByEmailRepositoryStub
   implements LoadAccountByEmailRepository

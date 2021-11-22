@@ -1,10 +1,10 @@
+import { AddSurveyModel } from '@domain/usecases'
+import { MongoHelper } from '@infra/db'
+import app from '@main/config/app'
+import env from '@main/config/env'
 import jwt from 'jsonwebtoken'
 import { Collection } from 'mongodb'
 import request from 'supertest'
-import { MongoHelper } from '../../../src/infra'
-import app from '../../../src/main/config/app'
-import env from '../../../src/main/config/env'
-import { AddSurveyModel } from '../../domain/usecases'
 
 let surveysColletion: Collection
 let accountCollection: Collection

@@ -1,4 +1,4 @@
-import { Authentication, AuthenticationModel } from '../../domain/usecases'
+import { Authentication, AuthenticationModel } from '@domain/usecases'
 import {
   Encrypter,
   HashComparer,

@@ -1,6 +1,6 @@
+import { LogErrorRepository } from '@data/protocols'
+import { LogMongoRepository, MongoHelper } from '@infra/db'
 import { Collection } from 'mongodb'
-import { LogErrorRepository } from '../../../../src/data/protocols'
-import { LogMongoRepository, MongoHelper } from '../../../../src/infra'
 
 interface SutTypes {
   sut: LogErrorRepository

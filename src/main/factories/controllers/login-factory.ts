@@ -1,5 +1,5 @@
-import { LoginController } from '../../../presentation/controller'
-import { Controller } from '../../../presentation/protocols'
+import { LoginController } from '@presentation/controller'
+import { Controller } from '@presentation/protocols'
 import { makeLogControllerDecorator } from '../decorators'
 import { makeAuthentication } from '../usecase'
 import { makeLoginValidation } from './login-validation-factory'

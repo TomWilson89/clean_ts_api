@@ -1,4 +1,4 @@
-import { LoadSurveys } from '../../domain/usecases'
+import { LoadSurveys } from '@domain/usecases'
 import { noContent, serverError, successResponse } from '../helpers'
 import { Controller, HttpRequest, HttpResponse } from '../protocols'
 

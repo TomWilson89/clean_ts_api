@@ -1,8 +1,8 @@
+import { MongoHelper } from '@infra/db'
+import app from '@main/config/app'
 import bcrypt from 'bcrypt'
 import { Collection } from 'mongodb'
 import request from 'supertest'
-import { MongoHelper } from '../../../src/infra'
-import app from '../../../src/main/config/app'
 
 let accountColletion: Collection
 

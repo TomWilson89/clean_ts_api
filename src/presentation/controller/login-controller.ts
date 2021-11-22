@@ -1,4 +1,4 @@
-import { Authentication } from '../../domain/usecases'
+import { Authentication } from '@domain/usecases'
 import { ServerError } from '../errors'
 import {
   badRequest,

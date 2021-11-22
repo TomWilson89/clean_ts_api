@@ -1,4 +1,4 @@
-import { Encrypter } from '../../../src/data/protocols'
+import { Encrypter } from '@data/protocols'
 
 export class EncrypterStub implements Encrypter {
   async encrypt(value: string): Promise<string> {

@@ -1,10 +1,7 @@
+import { AddSurveyRepository, LoadSurveysRepository } from '@data/protocols/'
+import { SurveyModel } from '@domain/models'
+import { AddSurveyModel } from '@domain/usecases'
 import { MongoHelper } from '.'
-import {
-  AddSurveyRepository,
-  LoadSurveysRepository
-} from '../../../data/protocols/'
-import { SurveyModel } from '../../../domain/models'
-import { AddSurveyModel } from '../../../domain/usecases'
 
 type SurveyRepositoryTypes = AddSurveyRepository & LoadSurveysRepository
 export class SurveyMongoRepository implements SurveyRepositoryTypes {

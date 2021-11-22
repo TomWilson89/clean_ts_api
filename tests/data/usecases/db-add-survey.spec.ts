@@ -1,8 +1,8 @@
+import { AddSurveyRepository } from '@data/protocols/'
+import { DbAddSurvey } from '@data/usecases'
+import { AddSurvey, AddSurveyModel } from '@domain/usecases'
+import { ServerError } from '@presentation/errors'
 import MockDate from 'mockdate'
-import { AddSurveyRepository } from '../../../src/data/protocols/'
-import { DbAddSurvey } from '../../../src/data/usecases'
-import { AddSurvey, AddSurveyModel } from '../../../src/domain/usecases'
-import { ServerError } from '../../../src/presentation/errors'
 import { AddSurveyRepositoryStub } from '../mocks/mock-add-survey-repository'
 
 const makeFakeSurvey = (): AddSurveyModel => {

@@ -3,16 +3,10 @@ import {
   HashComparer,
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository
-} from '../../../src/data/protocols'
-import { DbAuthentication } from '../../../src/data/usecases'
-import {
-  Authentication,
-  AuthenticationModel
-} from '../../../src/domain/usecases'
-import {
-  InvalidParamError,
-  ServerError
-} from '../../../src/presentation/errors'
+} from '@data/protocols'
+import { DbAuthentication } from '@data/usecases'
+import { Authentication, AuthenticationModel } from '@domain/usecases'
+import { InvalidParamError, ServerError } from '@presentation/errors'
 import {
   EncrypterStub,
   HashCompareStub,

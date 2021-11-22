@@ -1,10 +1,10 @@
-import { Collection } from 'mongodb'
 import {
   AddSurveyRepository,
   LoadSurveysRepository
-} from '../../../../src/data//protocols/db/surveys'
-import { AddSurveyModel } from '../../../../src/domain/usecases'
-import { MongoHelper, SurveyMongoRepository } from '../../../../src/infra/db'
+} from '@data//protocols/db/surveys'
+import { AddSurveyModel } from '@domain/usecases'
+import { MongoHelper, SurveyMongoRepository } from '@infra/db'
+import { Collection } from 'mongodb'
 
 const makeFakeSurvey = (): AddSurveyModel => {
   return {

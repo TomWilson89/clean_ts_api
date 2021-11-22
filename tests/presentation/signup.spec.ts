@@ -1,17 +1,17 @@
-import { AddAccount, Authentication } from '../../src/domain/usecases'
-import { SignUpController } from '../../src/presentation/controller'
+import { AddAccount, Authentication } from '@domain/usecases'
+import { SignUpController } from '@presentation/controller'
 import {
   EmailInUseError,
   MissingParamError,
   ServerError
-} from '../../src/presentation/errors'
+} from '@presentation/errors'
 import {
   badRequest,
   forbidden,
   serverError,
   successResponse
-} from '../../src/presentation/helpers'
-import { HttpRequest, Validation } from '../../src/presentation/protocols'
+} from '@presentation/helpers'
+import { HttpRequest, Validation } from '@presentation/protocols'
 import { AddAccountStub, AuthenticationStub, ValidationStub } from './mocks'
 
 const makeHttpRequest = (): HttpRequest => {

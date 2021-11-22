@@ -1,4 +1,4 @@
-import { UpdateAccessTokenRepository } from '../../../src/data/protocols'
+import { UpdateAccessTokenRepository } from '@data/protocols'
 
 export class UpdateAccessTokenRepositoryStub
   implements UpdateAccessTokenRepository
