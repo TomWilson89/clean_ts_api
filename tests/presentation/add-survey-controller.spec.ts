@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { AddSurveyController } from '../../src/presentation/controller'
 import { MissingParamError } from '../../src/presentation/errors'
 import {
@@ -8,6 +9,7 @@ import {
 import { AddSurvey } from '../domain/usecases'
 import { AddSurveyStub, ValidationStub } from './mocks'
 import { Controller, HttpRequest, Validation } from './protocols'
+
 interface SutTypes {
   sut: Controller
   validationStub: Validation
@@ -27,7 +29,8 @@ const makeHttpRequest = (): HttpRequest => {
         {
           answer: 'any_answer'
         }
-      ]
+      ],
+      date: new Date()
     }
   }
 }
@@ -44,6 +47,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddSurveyController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('should call validation with corect values', async () => {
     const { sut, validationStub } = makeSut()
     const validationSpy = jest.spyOn(validationStub, 'validate')
