@@ -6,9 +6,13 @@ import {
   noContent,
   serverError
 } from '../../src/presentation/helpers'
+import {
+  Controller,
+  HttpRequest,
+  Validation
+} from '../../src/presentation/protocols'
 import { AddSurvey } from '../domain/usecases'
 import { AddSurveyStub, ValidationStub } from './mocks'
-import { Controller, HttpRequest, Validation } from './protocols'
 
 interface SutTypes {
   sut: Controller
