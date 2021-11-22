@@ -65,4 +65,11 @@ describe('Survey routes', () => {
       expect(res.status).toBe(204)
     })
   })
+  describe('GET /surveys', () => {
+    test('should return 403 on add survey without access token', async () => {
+      const res = await request(app).get('/api/surveys').send(fakeSurvey)
+
+      expect(res.status).toBe(403)
+    })
+  })
 })
