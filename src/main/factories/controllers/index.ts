@@ -1,5 +1,6 @@
 export * from './add-survey-factory'
 export * from './add-survey-validation-factory'
+export * from './load-surveys-factory'
 export * from './login-factory'
 export * from './login-validation-factory'
 export * from './signup-factory'
