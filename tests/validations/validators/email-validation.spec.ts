@@ -1,7 +1,7 @@
-import { InvalidParamError } from '../../../src/presentation/errors'
-import { HttpRequest } from '../../../src/presentation/protocols'
-import { EmailValidator } from '../../../src/validations/protocots'
-import { EmailValidation } from '../../../src/validations/validators'
+import { InvalidParamError } from '@presentation/errors'
+import { HttpRequest } from '@presentation/protocols'
+import { EmailValidator } from '@validations/protocots'
+import { EmailValidation } from '@validations/validators'
 import { EmailValidatorStub } from '../../presentation/mocks'
 
 const makeRequest = (): HttpRequest => {

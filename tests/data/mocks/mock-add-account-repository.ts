@@ -1,6 +1,6 @@
-import { AddAccountRepository } from '../../../src/data/protocols'
-import { AccountModel } from '../../../src/domain/models'
-import { AddAccountModel } from '../../../src/domain/usecases'
+import { AddAccountRepository } from '@data/protocols'
+import { AccountModel } from '@domain/models'
+import { AddAccountModel } from '@domain/usecases'
 
 export class AddAccountRepositoryStub implements AddAccountRepository {
   async add(account: AddAccountModel): Promise<AccountModel> {

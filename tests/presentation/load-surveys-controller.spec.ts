@@ -1,12 +1,8 @@
+import { LoadSurveys } from '@domain/usecases'
+import { LoadSurveysController } from '@presentation/controller'
+import { noContent, serverError, successResponse } from '@presentation/helpers'
+import { Controller } from '@presentation/protocols'
 import MockDate from 'mockdate'
-import { LoadSurveys } from '../../src/domain/usecases'
-import { LoadSurveysController } from '../../src/presentation/controller'
-import {
-  noContent,
-  serverError,
-  successResponse
-} from '../../src/presentation/helpers'
-import { Controller } from '../../src/presentation/protocols'
 import { LoadSurveysStub, makeFakeSuyrveys } from './mocks/load-surveys'
 
 interface SutTypes {

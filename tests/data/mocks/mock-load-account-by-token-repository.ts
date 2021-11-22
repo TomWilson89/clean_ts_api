@@ -1,4 +1,4 @@
-import { LoadAccountByTokenRepository } from '../../../src/data/protocols/'
+import { LoadAccountByTokenRepository } from '@data/protocols/'
 
 export class LoadAccountByTokenRepositoryStub
   implements LoadAccountByTokenRepository

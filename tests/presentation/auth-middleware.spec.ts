@@ -1,12 +1,8 @@
-import { LoadAccountByToken } from '../../src/domain/usecases'
-import { AccessDeniedError } from '../../src/presentation/errors'
-import {
-  forbidden,
-  serverError,
-  successResponse
-} from '../../src/presentation/helpers'
-import { AuthMiddleware } from '../../src/presentation/middlewares'
-import { HttpRequest, Middleware } from '../../src/presentation/protocols'
+import { LoadAccountByToken } from '@domain/usecases'
+import { AccessDeniedError } from '@presentation/errors'
+import { forbidden, serverError, successResponse } from '@presentation/helpers'
+import { AuthMiddleware } from '@presentation/middlewares'
+import { HttpRequest, Middleware } from '@presentation/protocols'
 import { LoadAccountByTokenStub } from './mocks'
 
 const makeHttpRequest = (): HttpRequest => {

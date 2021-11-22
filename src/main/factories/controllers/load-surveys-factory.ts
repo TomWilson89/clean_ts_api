@@ -1,5 +1,5 @@
-import { LoadSurveysController } from '../../../presentation/controller'
-import { Controller } from '../../../presentation/protocols'
+import { LoadSurveysController } from '@presentation/controller'
+import { Controller } from '@presentation/protocols'
 import { makeLogControllerDecorator } from '../decorators'
 import { makeDbLoadSurveys } from '../usecase'
 

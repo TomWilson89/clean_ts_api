@@ -1,6 +1,6 @@
-import { MissingParamError } from '../../../src/presentation/errors'
-import { Validation } from '../../../src/presentation/protocols'
-import { RequiredFieldValidation } from '../../../src/validations/validators'
+import { MissingParamError } from '@presentation/errors'
+import { Validation } from '@presentation/protocols'
+import { RequiredFieldValidation } from '@validations/validators'
 
 interface SutTypes {
   sut: Validation

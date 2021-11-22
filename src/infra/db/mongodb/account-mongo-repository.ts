@@ -3,9 +3,9 @@ import {
   LoadAccountByEmailRepository,
   LoadAccountByTokenRepository,
   UpdateAccessTokenRepository
-} from '../../../data/protocols'
-import { AccountModel } from '../../../domain/models'
-import { AddAccountModel } from '../../../domain/usecases'
+} from '@data/protocols'
+import { AccountModel } from '@domain/models'
+import { AddAccountModel } from '@domain/usecases'
 import { MongoHelper } from './helper'
 
 type AccountMongoRepositoryTypes = AddAccountRepository &

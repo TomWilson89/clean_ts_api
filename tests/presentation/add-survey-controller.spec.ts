@@ -1,17 +1,9 @@
+import { AddSurvey } from '@domain/usecases'
+import { AddSurveyController } from '@presentation/controller'
+import { MissingParamError } from '@presentation/errors'
+import { badRequest, noContent, serverError } from '@presentation/helpers'
+import { Controller, HttpRequest, Validation } from '@presentation/protocols'
 import MockDate from 'mockdate'
-import { AddSurveyController } from '../../src/presentation/controller'
-import { MissingParamError } from '../../src/presentation/errors'
-import {
-  badRequest,
-  noContent,
-  serverError
-} from '../../src/presentation/helpers'
-import {
-  Controller,
-  HttpRequest,
-  Validation
-} from '../../src/presentation/protocols'
-import { AddSurvey } from '../domain/usecases'
 import { AddSurveyStub, ValidationStub } from './mocks'
 
 interface SutTypes {

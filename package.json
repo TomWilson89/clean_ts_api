@@ -50,10 +50,19 @@
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
     "mongodb": "^4.1.4",
     "validator": "^13.7.0"
   },
   "engines": {
     "node": "14.x"
+  },
+  "_moduleAliases": {
+    "@infra": "dist/infra",
+    "@domain": "dist/domain",
+    "@validations": "dist/validations",
+    "@data": "dist/data",
+    "@main": "dist/main",
+    "@presentation": "dist/presentation"
   }
 }
