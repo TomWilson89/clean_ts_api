@@ -1,8 +1,9 @@
 import MockDate from 'mockdate'
 import { LoadSurveys } from '../../src/domain/usecases'
 import { LoadSurveysController } from '../../src/presentation/controller'
+import { successResponse } from '../../src/presentation/helpers'
 import { Controller } from '../../src/presentation/protocols'
-import { LoadSurveysStub } from './mocks/load-surveys'
+import { LoadSurveysStub, makeFakeSuyrveys } from './mocks/load-surveys'
 
 interface SutTypes {
   sut: Controller
@@ -34,5 +35,12 @@ describe('LoadSurveys Controller', () => {
 
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(successResponse(makeFakeSuyrveys()))
   })
 })
