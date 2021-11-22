@@ -9,6 +9,21 @@ import { AddSurveyModel } from '../../domain/usecases'
 let surveysColletion: Collection
 let accountCollection: Collection
 
+const makeAccessToken = async (): Promise<string> => {
+  const newUser = await accountCollection.insertOne({
+    name: 'Rodrigo',
+    email: 'test@test.com',
+    password: '123456',
+    role: 'admin'
+  })
+
+  const id = newUser.insertedId
+
+  const accessToken = await jwt.sign({ id }, env.jwtSecret)
+  await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+  return accessToken
+}
+
 const makeFakeSurveys = (): AddSurveyModel[] => {
   const surveys = [
     {
@@ -68,17 +83,7 @@ describe('Survey routes', () => {
     })
 
     test('should return 204 on add survey with valid token', async () => {
-      const newUser = await accountCollection.insertOne({
-        name: 'Rodrigo',
-        email: 'test@test.com',
-        password: '123456',
-        role: 'admin'
-      })
-
-      const id = newUser.insertedId
-
-      const accessToken = await jwt.sign({ id }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+      const accessToken = await makeAccessToken()
 
       const res = await request(app)
         .post('/api/surveys')
@@ -96,17 +101,8 @@ describe('Survey routes', () => {
     })
 
     test('should return 200 on load surveys with valid token', async () => {
-      const newUser = await accountCollection.insertOne({
-        name: 'Rodrigo',
-        email: 'test@test.com',
-        password: '123456',
-        role: 'admin'
-      })
+      const accessToken = await makeAccessToken()
 
-      const id = newUser.insertedId
-
-      const accessToken = await jwt.sign({ id }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
       await surveysColletion.insertMany(makeFakeSurveys())
 
       const res = await request(app)
