@@ -1,9 +1,16 @@
-import { AddSurveyRepository, LoadSurveysRepository } from '@data/protocols/'
+import {
+  AddSurveyRepository,
+  LoadSurveyByIdRepository,
+  LoadSurveysRepository
+} from '@data/protocols/'
 import { SurveyModel } from '@domain/models'
 import { AddSurveyModel } from '@domain/usecases'
+import { ObjectId } from 'bson'
 import { MongoHelper } from '.'
 
-type SurveyRepositoryTypes = AddSurveyRepository & LoadSurveysRepository
+type SurveyRepositoryTypes = AddSurveyRepository &
+  LoadSurveysRepository &
+  LoadSurveyByIdRepository
 export class SurveyMongoRepository implements SurveyRepositoryTypes {
   async add(data: AddSurveyModel): Promise<void> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
@@ -14,5 +21,14 @@ export class SurveyMongoRepository implements SurveyRepositoryTypes {
     const surveyCollection = await MongoHelper.getCollection('surveys')
     const surveys = (await surveyCollection.find().toArray()) as SurveyModel[]
     return surveys
+  }
+
+  async loadById(id: string): Promise<SurveyModel> {
+    const surveyCollection = await MongoHelper.getCollection('surveys')
+    const survey = (await surveyCollection.findOne({
+      _id: new ObjectId(id)
+    })) as SurveyModel
+
+    return survey && MongoHelper.map(survey)
   }
 }
