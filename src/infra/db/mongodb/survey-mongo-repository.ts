@@ -5,7 +5,7 @@ import {
 } from '@data/protocols/'
 import { SurveyModel } from '@domain/models'
 import { AddSurveyModel } from '@domain/usecases'
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { MongoHelper } from '.'
 
 type SurveyRepositoryTypes = AddSurveyRepository &
