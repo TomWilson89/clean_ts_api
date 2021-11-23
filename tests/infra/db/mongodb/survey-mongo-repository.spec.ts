@@ -1,5 +1,6 @@
 import {
   AddSurveyRepository,
+  LoadSurveyByIdRepository,
   LoadSurveysRepository
 } from '@data//protocols/db/surveys'
 import { AddSurveyModel } from '@domain/usecases'
@@ -46,7 +47,7 @@ const makeFakeSurveys = (): AddSurveyModel[] => {
 let surveyCollection: Collection
 
 type SutTypes = {
-  sut: AddSurveyRepository & LoadSurveysRepository
+  sut: AddSurveyRepository & LoadSurveysRepository & LoadSurveyByIdRepository
 }
 
 const makeSutTypes = (): SutTypes => {
@@ -95,6 +96,16 @@ describe('Survey Mongo Repository', () => {
       const surveys = await sut.loadAll()
       expect(Array.isArray(surveys)).toBe(true)
       expect(surveys.length).toBe(0)
+    })
+  })
+
+  describe('loadById()', () => {
+    test('should load survey by id on success', async () => {
+      const { sut } = makeSutTypes()
+      const survey = makeFakeSurvey()
+      const res = await surveyCollection.insertOne(survey)
+      const surveyFound = await sut.loadById(res.insertedId.toHexString())
+      expect(surveyFound).toBeTruthy()
     })
   })
 })
