@@ -11,11 +11,11 @@ jest.mock('jsonwebtoken', () => ({
   }
 }))
 
-interface SutTYpes {
+type SutTypes = {
   sut: Encrypter & Decrypter
 }
 
-const makeSut = (secret = 'secret'): SutTYpes => {
+const makeSut = (secret = 'secret'): SutTypes => {
   const sut = new JwtAdapter(secret)
 
   return {

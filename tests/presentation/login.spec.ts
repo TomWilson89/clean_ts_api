@@ -19,7 +19,7 @@ const makeHttpRequest = (): HttpRequest => {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: Controller
   authenticationStub: Authentication
   validationStub: Validation

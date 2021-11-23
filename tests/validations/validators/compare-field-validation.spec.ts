@@ -2,7 +2,7 @@ import { InvalidParamError } from '@presentation/errors'
 import { Validation } from '@presentation/protocols'
 import { CompareFieldValidation } from '@validations/validators'
 
-interface SutTypes {
+type SutTypes = {
   sut: Validation
 }
 const makeSut = (): SutTypes => {
