@@ -5,7 +5,7 @@ import { Controller } from '@presentation/protocols'
 import MockDate from 'mockdate'
 import { LoadSurveysStub, makeFakeSuyrveys } from './mocks/load-surveys'
 
-interface SutTypes {
+type SutTypes = {
   sut: Controller
   loadSurveysStub: LoadSurveys
 }

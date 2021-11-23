@@ -13,7 +13,7 @@ const makeHttpRequest = (): HttpRequest => {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: Middleware
   loadAccountByTokenStub: LoadAccountByToken
 }

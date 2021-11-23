@@ -45,7 +45,7 @@ const makeFakeSurveys = (): AddSurveyModel[] => {
 
 let surveyCollection: Collection
 
-interface SutTypes {
+type SutTypes = {
   sut: AddSurveyRepository & LoadSurveysRepository
 }
 

@@ -2,7 +2,7 @@ import { LogErrorRepository } from '@data/protocols'
 import { LogMongoRepository, MongoHelper } from '@infra/db'
 import { Collection } from 'mongodb'
 
-interface SutTypes {
+type SutTypes = {
   sut: LogErrorRepository
 }
 

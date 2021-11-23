@@ -10,7 +10,7 @@ jest.mock('bcrypt', () => ({
     return await Promise.resolve(true)
   }
 }))
-interface SutTypes {
+type SutTypes = {
   sut: BcryptAdapter
 }
 

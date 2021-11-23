@@ -15,7 +15,7 @@ const makeRequest = (): HttpRequest => {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: EmailValidation
   emailValidatorStub: EmailValidator
 }

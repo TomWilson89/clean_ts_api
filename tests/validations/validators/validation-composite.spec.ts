@@ -3,7 +3,7 @@ import { MissingParamError } from '@presentation/errors'
 import { Validation } from '@presentation/protocols'
 import { ValidationComposite } from '@validations/validators'
 
-interface SutTypes {
+type SutTypes = {
   sut: Validation
   validationStubs: Validation[]
 }

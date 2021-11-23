@@ -6,7 +6,7 @@ import { Controller, HttpRequest, Validation } from '@presentation/protocols'
 import MockDate from 'mockdate'
 import { AddSurveyStub, ValidationStub } from './mocks'
 
-interface SutTypes {
+type SutTypes = {
   sut: Controller
   validationStub: Validation
   addSurveyStub: AddSurvey

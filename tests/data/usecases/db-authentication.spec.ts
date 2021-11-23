@@ -18,7 +18,7 @@ const makeFakeAuthentication = (): AuthenticationModel => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })
-interface SutTypes {
+type SutTypes = {
   sut: Authentication
   hashCompareStub: HashComparer
   encrypterStub: Encrypter
