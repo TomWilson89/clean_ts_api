@@ -20,7 +20,7 @@ export class SurveyMongoRepository implements SurveyRepositoryTypes {
   async loadAll(): Promise<SurveyModel[]> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
     const surveys = (await surveyCollection.find().toArray()) as SurveyModel[]
-    return surveys
+    return surveys && MongoHelper.mapCollection(surveys)
   }
 
   async loadById(id: string): Promise<SurveyModel> {
