@@ -31,9 +31,9 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "start": "node dist/main/server.js",
+    "start": "node dist/src/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/src/main/server.js",
     "docker:up": "yarn build && docker-compose up",
     "docker:down": "docker compose down",
     "prepare": "husky install",
@@ -58,11 +58,11 @@
     "node": "14.x"
   },
   "_moduleAliases": {
-    "@infra": "dist/infra",
-    "@domain": "dist/domain",
-    "@validations": "dist/validations",
-    "@data": "dist/data",
-    "@main": "dist/main",
-    "@presentation": "dist/presentation"
+    "@infra": "dist/src/infra",
+    "@domain": "dist/src/domain",
+    "@validations": "dist/src/validations",
+    "@data": "dist/src/data",
+    "@main": "dist/src/main",
+    "@presentation": "dist/src/presentation"
   }
 }
