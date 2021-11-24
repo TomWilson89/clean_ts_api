@@ -1,15 +1,9 @@
-import { AddAccountParams } from '@domain/usecases'
+import { mockAddAccountParams } from '@/tests/domain/mocks'
 import { AccountMongoRepository, MongoHelper } from '@infra/db'
 import { Collection } from 'mongodb'
 
-const makeFakeUser = (): AddAccountParams => ({
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'any_password'
-})
-
 const makeFakeUserWithToken = (): any => ({
-  ...makeFakeUser(),
+  ...mockAddAccountParams(),
   accessToken: 'any_token'
 })
 
@@ -44,7 +38,7 @@ describe('Account Mongo Repositorty', () => {
   describe('add', () => {
     test('should return a valid id on success', async () => {
       const { sut } = makeSut()
-      const account = await sut.add(makeFakeUser())
+      const account = await sut.add(mockAddAccountParams())
 
       expect(account).toBeTruthy()
     })
@@ -53,7 +47,7 @@ describe('Account Mongo Repositorty', () => {
   describe('loadByEmail', () => {
     test('should return an account on success', async () => {
       const { sut } = makeSut()
-      const user = makeFakeUser()
+      const user = mockAddAccountParams()
       await accountColletion.insertOne(user)
 
       const account = await sut.loadByEmail(user.email)
@@ -77,7 +71,7 @@ describe('Account Mongo Repositorty', () => {
   describe('updateAccessToken', () => {
     test('should update account accessToken on updateAccessToken success', async () => {
       const { sut } = makeSut()
-      const user = makeFakeUser()
+      const user = mockAddAccountParams()
       const res = await accountColletion.insertOne(user)
       const fakeAccount = await accountColletion.findOne({
         _id: res.insertedId

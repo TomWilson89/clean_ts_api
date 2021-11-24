@@ -114,7 +114,7 @@ describe('DbAuthentication usecase', () => {
 
     const authenticationRequest = makeFakeAuthentication()
     await sut.auth(authenticationRequest)
-    expect(generateSpy).toHaveBeenCalledWith('valid_id')
+    expect(generateSpy).toHaveBeenCalledWith('any_id')
   })
 
   test('should throw if Encrypter throws', async () => {
@@ -142,7 +142,7 @@ describe('DbAuthentication usecase', () => {
 
     const authenticationRequest = makeFakeAuthentication()
     await sut.auth(authenticationRequest)
-    expect(updateSpy).toHaveBeenCalledWith('valid_id', 'valid_token')
+    expect(updateSpy).toHaveBeenCalledWith('any_id', 'valid_token')
   })
 
   test('should throw if UpdateAccessTokenRepository throws', async () => {
