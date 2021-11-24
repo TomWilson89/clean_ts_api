@@ -13,6 +13,12 @@ export class SaveSurveyResultController implements Controller {
       if (!survey) {
         return forbidden(new InvalidParamError('surveyId'))
       }
+
+      const { answer } = httpRequest.body
+      const answers = survey.answers.map((a) => a.answer)
+      if (!answers.includes(answer)) {
+        return forbidden(new InvalidParamError('answer'))
+      }
       return null
     } catch (error) {
       return serverError(error)
