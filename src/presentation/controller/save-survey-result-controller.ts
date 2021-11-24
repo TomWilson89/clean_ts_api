@@ -1,6 +1,6 @@
 import { SaveSurveyResult } from '@domain/usecases'
 import { InvalidParamError } from '@presentation/errors'
-import { forbidden, serverError } from '@presentation/helpers'
+import { forbidden, serverError, successResponse } from '@presentation/helpers'
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols'
 import { LoadSurveyByIdStub } from '../mocks'
 
@@ -26,13 +26,14 @@ export class SaveSurveyResultController implements Controller {
       if (!answers.includes(answer)) {
         return forbidden(new InvalidParamError('answer'))
       }
-      await this.saveSurveyResult.save({
+      const surveyResult = await this.saveSurveyResult.save({
         surveyId,
         accountId,
         answer,
         date: new Date()
       })
-      return null
+
+      return successResponse(surveyResult)
     } catch (error) {
       return serverError(error)
     }
