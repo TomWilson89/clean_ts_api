@@ -1,5 +1,5 @@
-import { SurveyModel } from './../../../src/domain/models'
-import { LoadSurveys } from './../../../src/domain/usecases'
+import { SurveyModel } from '@domain/models'
+import { LoadSurveys } from '@domain/usecases'
 
 export const makeFakeSuyrveys = (): SurveyModel[] => {
   const fakeSurveys = [

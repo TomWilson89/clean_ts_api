@@ -1,5 +1,5 @@
-import { AccountModel } from '../../../src/domain/models'
-import { LoadAccountByToken } from '../../../src/domain/usecases'
+import { AccountModel } from '@domain/models'
+import { LoadAccountByToken } from '@domain/usecases'
 
 export class LoadAccountByTokenStub implements LoadAccountByToken {
   async load(accessToken: string, role?: string): Promise<AccountModel> {

@@ -1,9 +1,9 @@
-import { AccountModel } from '../../../src/domain/models'
-import { AddAccount, AddAccountModel } from '../../../src/domain/usecases'
+import { AccountModel } from '@domain/models'
+import { AddAccount, AddAccountParams } from '@domain/usecases'
 
 export class AddAccountStub implements AddAccount {
-  public account?: AddAccountModel
-  public async add(account: AddAccountModel): Promise<AccountModel> {
+  public account?: AddAccountParams
+  public async add(account: AddAccountParams): Promise<AccountModel> {
     this.account = account
 
     const fakeAccount = {

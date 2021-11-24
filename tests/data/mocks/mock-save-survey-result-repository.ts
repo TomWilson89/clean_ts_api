@@ -1,11 +1,11 @@
 import { SaveSurveyResultRepository } from '@data/protocols'
-import { SaveSurveyResultModel } from '@domain/usecases'
+import { SaveSurveyResultParams } from '@domain/usecases'
 
 export class SaveSurveyResultRepositoryStub
   implements SaveSurveyResultRepository
 {
-  params: SaveSurveyResultModel
-  async save(surveyResult: SaveSurveyResultModel): Promise<void> {
+  params: SaveSurveyResultParams
+  async save(surveyResult: SaveSurveyResultParams): Promise<void> {
     this.params = surveyResult
   }
 }

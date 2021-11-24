@@ -3,11 +3,11 @@ import {
   LoadSurveyByIdRepository,
   LoadSurveysRepository
 } from '@data//protocols/db/surveys'
-import { AddSurveyModel } from '@domain/usecases'
+import { AddSurveyParams } from '@domain/usecases'
 import { MongoHelper, SurveyMongoRepository } from '@infra/db'
 import { Collection } from 'mongodb'
 
-const makeFakeSurvey = (): AddSurveyModel => {
+const makeFakeSurvey = (): AddSurveyParams => {
   return {
     question: 'any_question',
     answers: [
@@ -19,7 +19,7 @@ const makeFakeSurvey = (): AddSurveyModel => {
     date: new Date()
   }
 }
-const makeFakeSurveys = (): AddSurveyModel[] => {
+const makeFakeSurveys = (): AddSurveyParams[] => {
   return [
     {
       question: 'any_question',

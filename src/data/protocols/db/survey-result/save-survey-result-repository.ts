@@ -1,5 +1,5 @@
-import { SaveSurveyResultModel } from '@domain/usecases'
+import { SaveSurveyResultParams } from '@domain/usecases'
 
 export interface SaveSurveyResultRepository {
-  save: (surveyResult: SaveSurveyResultModel) => Promise<void>
+  save: (surveyResult: SaveSurveyResultParams) => Promise<void>
 }

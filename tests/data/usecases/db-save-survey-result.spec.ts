@@ -4,7 +4,7 @@ import {
 } from '@data/protocols'
 import { DbSaveSurveyResult } from '@data/usecases'
 import { SurveyResultModel } from '@domain/models'
-import { SaveSurveyResult, SaveSurveyResultModel } from '@domain/usecases'
+import { SaveSurveyResult, SaveSurveyResultParams } from '@domain/usecases'
 import MockDate from 'mockdate'
 import {
   LoadSurveyResultRepositoryStub,
@@ -14,7 +14,7 @@ import {
 const makeFakeSurveyResult = (): SurveyResultModel =>
   Object.assign({}, makeFakeSurveyResultData(), { id: 'valid_id' })
 
-const makeFakeSurveyResultData = (): SaveSurveyResultModel => ({
+const makeFakeSurveyResultData = (): SaveSurveyResultParams => ({
   surveyId: 'any_survey_id',
   accountId: 'any_account_id',
   answer: 'any_answer',

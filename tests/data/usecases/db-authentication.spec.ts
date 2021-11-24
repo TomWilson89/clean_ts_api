@@ -5,7 +5,7 @@ import {
   UpdateAccessTokenRepository
 } from '@data/protocols'
 import { DbAuthentication } from '@data/usecases'
-import { Authentication, AuthenticationModel } from '@domain/usecases'
+import { Authentication, AuthenticationParams } from '@domain/usecases'
 import { InvalidParamError, ServerError } from '@presentation/errors'
 import {
   EncrypterStub,
@@ -14,7 +14,7 @@ import {
   UpdateAccessTokenRepositoryStub
 } from '../mocks'
 
-const makeFakeAuthentication = (): AuthenticationModel => ({
+const makeFakeAuthentication = (): AuthenticationParams => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })

@@ -1,4 +1,4 @@
-import { EmailValidator } from '../../../src/validations/protocots'
+import { EmailValidator } from '@validations/protocots'
 
 export class EmailValidatorStub implements EmailValidator {
   isValid(email: string): boolean {

@@ -1,8 +1,8 @@
 import { AddSurveyRepository } from '@data/protocols/'
-import { AddSurveyModel } from '@domain/usecases'
+import { AddSurveyParams } from '@domain/usecases'
 
 export class AddSurveyRepositoryStub implements AddSurveyRepository {
-  async add(surveyData: AddSurveyModel): Promise<void> {
+  async add(surveyData: AddSurveyParams): Promise<void> {
     return null
   }
 }

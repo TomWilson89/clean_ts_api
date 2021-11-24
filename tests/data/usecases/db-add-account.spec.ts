@@ -5,7 +5,7 @@ import {
 } from '@data/protocols'
 import { DbAddAccount } from '@data/usecases'
 import { AccountModel } from '@domain/models'
-import { AddAccountModel } from '@domain/usecases'
+import { AddAccountParams } from '@domain/usecases'
 import { InvalidParamError, ServerError } from '@presentation/errors'
 import {
   AddAccountRepositoryStub,
@@ -20,7 +20,7 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'hashed_password'
 })
 
-const makeFakeAccountData = (): AddAccountModel => ({
+const makeFakeAccountData = (): AddAccountParams => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
