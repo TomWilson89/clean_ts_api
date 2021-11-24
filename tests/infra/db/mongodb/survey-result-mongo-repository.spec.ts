@@ -140,9 +140,15 @@ describe('Survey Mongo Repository', () => {
 
       const surveyResult = await sut.loadBySurveyId(survey.id, account.id)
 
-      console.log('surveyResult', surveyResult)
       expect(surveyResult).toBeTruthy()
       expect(surveyResult.id).toEqual(res.insertedId)
+    })
+
+    test('should return null if loadBySurveyId return null', async () => {
+      const { sut } = makeSutTypes()
+      const surveyResult = await sut.loadBySurveyId('any_id', 'any_id')
+
+      expect(surveyResult).toBeFalsy()
     })
   })
 })
