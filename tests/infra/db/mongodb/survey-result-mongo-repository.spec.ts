@@ -1,4 +1,7 @@
-import { SaveSurveyResultRepository } from '@data//protocols/db/surveys'
+import {
+  LoadSurveyResultRepository,
+  SaveSurveyResultRepository
+} from '@data//protocols/db/surveys'
 import { AccountModel, SurveyModel } from '@domain/models'
 import { MongoHelper, SurveyResultMongoRepository } from '@infra/db'
 import { Collection, ObjectId } from 'mongodb'
@@ -45,7 +48,7 @@ const makeFakeUser = async (): Promise<AccountModel> => {
 }
 
 type SutTypes = {
-  sut: SaveSurveyResultRepository
+  sut: SaveSurveyResultRepository & LoadSurveyResultRepository
 }
 
 const makeSutTypes = (): SutTypes => {
@@ -120,6 +123,26 @@ describe('Survey Mongo Repository', () => {
       expect(surveyResult).toBeTruthy()
       expect(surveyResult._id).toEqual(res.insertedId)
       expect(surveyResult?.answer).toBe(survey.answers[1].answer)
+    })
+  })
+
+  describe('loadById', () => {
+    test('should return a survey model if loadBySurveyId succeed', async () => {
+      const survey = await makeFakeSurvey()
+      const account = await makeFakeUser()
+      const { sut } = makeSutTypes()
+      const res = await surveyResultCollection.insertOne({
+        surveyId: new ObjectId(survey.id),
+        accountId: new ObjectId(account.id),
+        answer: survey.answers[0].answer,
+        date: new Date()
+      })
+
+      const surveyResult = await sut.loadBySurveyId(survey.id, account.id)
+
+      console.log('surveyResult', surveyResult)
+      expect(surveyResult).toBeTruthy()
+      expect(surveyResult.id).toEqual(res.insertedId)
     })
   })
 })
