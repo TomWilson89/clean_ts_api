@@ -3,7 +3,7 @@ import { LoadSurveysController } from '@presentation/controller'
 import { noContent, serverError, successResponse } from '@presentation/helpers'
 import { Controller } from '@presentation/protocols'
 import MockDate from 'mockdate'
-import { LoadSurveysStub, makeFakeSuyrveys } from './mocks/load-surveys'
+import { LoadSurveysStub, makeFakeSuyrveys } from './mocks'
 
 type SutTypes = {
   sut: Controller
