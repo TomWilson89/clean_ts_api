@@ -1,7 +1,8 @@
+import { SurveyResultModel } from '@domain/models'
 import { LoadSurveysById, SaveSurveyResult } from '@domain/usecases'
 import { SaveSurveyResultController } from '@presentation/controller'
 import { InvalidParamError } from '@presentation/errors'
-import { forbidden, serverError } from '@presentation/helpers'
+import { forbidden, serverError, successResponse } from '@presentation/helpers'
 import { Controller, HttpRequest } from '@presentation/protocols'
 import MockDate from 'mockdate'
 import { LoadSurveyByIdStub, SaveSurveyResultStub } from './mocks'
@@ -15,6 +16,16 @@ const makeFakeRequest = (): HttpRequest => {
       answer: 'any_answer'
     },
     accountId: 'any_account_id'
+  }
+}
+
+const makeFakeSurveyResult = (): SurveyResultModel => {
+  return {
+    id: 'valid_id',
+    surveyId: 'valid_survey_id',
+    accountId: 'valid_account_id',
+    answer: 'valid_answer',
+    date: new Date()
   }
 }
 
@@ -101,5 +112,11 @@ describe('SaveSurveyResult controller', () => {
     jest.spyOn(saveSurveyResultStub, 'save').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(successResponse(makeFakeSurveyResult()))
   })
 })
