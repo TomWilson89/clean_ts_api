@@ -1,4 +1,4 @@
-import { loginPath } from '../docs/paths'
+import paths from '../docs/paths'
 import components from './components'
 import schemas from './schemas'
 
@@ -9,19 +9,23 @@ export default {
     version: '1.0.0',
     description: 'Survey API developed with TDD'
   },
+  license: {
+    name: 'MIT',
+    url: 'https://choosealicense.com/licenses/mit/'
+  },
   servers: [
     {
-      url: '/api'
+      url: '/api',
+      description: 'Main Server'
     }
   ],
   tags: [
     {
-      name: 'Login'
+      name: 'Login',
+      description: 'API related to authorization and authentication'
     }
   ],
-  paths: {
-    '/login': loginPath
-  },
+  paths,
   schemas,
   components
 }
