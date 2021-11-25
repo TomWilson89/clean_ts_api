@@ -5,7 +5,7 @@ import { auth } from '../middlewares'
 
 export default (router: Router): void => {
   router.put(
-    '/surveys/:surveyId/result',
+    '/surveys/:surveyId/results',
     auth,
     adaptRoute(makeSurveyResultController())
   )
