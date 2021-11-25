@@ -6,13 +6,13 @@ export const surveyResultPath = {
       }
     ],
     tags: ['Survey'],
-    summary: 'API to create survey response',
+    summary: 'API to create survey result',
     description: 'this API can only by executed by authenticated users',
     parameters: [
       {
         in: 'path',
         name: 'surveyId',
-        description: 'Id of survey to be respond',
+        description: 'Id of survey to be answered',
         required: true,
         schema: {
           type: 'string'
@@ -42,6 +42,48 @@ export const surveyResultPath = {
       },
       400: {
         $ref: '#/components/badRequest'
+      },
+      403: {
+        $ref: '#/components/forbidden'
+      },
+      404: {
+        $ref: '#/components/notFound'
+      },
+      500: {
+        $ref: '#/components/serverError'
+      }
+    }
+  },
+  get: {
+    security: [
+      {
+        apiKeyAuth: []
+      }
+    ],
+    tags: ['Survey'],
+    summary: 'API to list survey results',
+    description: 'this API can only by executed by authenticated users',
+    parameters: [
+      {
+        in: 'path',
+        name: 'surveyId',
+        description: 'Id of answered survey',
+        required: true,
+        schema: {
+          type: 'string'
+        }
+      }
+    ],
+    responses: {
+      200: {
+        description: 'Survey results listed successfully',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/schemas/surveyResult'
+            }
+          }
+        }
       },
       403: {
         $ref: '#/components/forbidden'
