@@ -1,26 +1,10 @@
+import { mockSurveyModels } from '@/tests/domain/mocks'
 import { LoadSurveysRepository } from '@data/protocols'
 import { DbLoadSurveys } from '@data/usecases'
-import { SurveyModel } from '@domain/models'
 import { LoadSurveys } from '@domain/usecases'
 import MockDate from 'mockdate'
 import { LoadSurveysRepositoryStub } from '../mocks/'
 
-const makeFakeSurvey = (): SurveyModel[] => {
-  const fakeSurveys = [
-    {
-      id: 'valid_id',
-      question: 'valid_question',
-      answers: [
-        {
-          image: 'valid_image',
-          answer: 'valid_answer'
-        }
-      ],
-      date: new Date()
-    }
-  ]
-  return fakeSurveys
-}
 type SutTypes = {
   sut: LoadSurveys
   loadSurveysRepositoryStub: LoadSurveysRepository
@@ -54,7 +38,7 @@ describe('DbLoadSurveys', () => {
   test('should return a list of surveys if LoadSurveysRepository success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.load()
-    expect(httpResponse).toEqual(makeFakeSurvey())
+    expect(httpResponse).toEqual(mockSurveyModels())
   })
 
   test('should throw is LoadSurveysRepository throws', async () => {

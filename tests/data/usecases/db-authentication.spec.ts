@@ -1,3 +1,4 @@
+import { mockAuthenticationParams } from '@/tests/domain/mocks'
 import {
   Encrypter,
   HashComparer,
@@ -5,7 +6,7 @@ import {
   UpdateAccessTokenRepository
 } from '@data/protocols'
 import { DbAuthentication } from '@data/usecases'
-import { Authentication, AuthenticationParams } from '@domain/usecases'
+import { Authentication } from '@domain/usecases'
 import { InvalidParamError, ServerError } from '@presentation/errors'
 import {
   EncrypterStub,
@@ -14,10 +15,6 @@ import {
   UpdateAccessTokenRepositoryStub
 } from '../mocks'
 
-const makeFakeAuthentication = (): AuthenticationParams => ({
-  email: 'any_email@mail.com',
-  password: 'any_password'
-})
 type SutTypes = {
   sut: Authentication
   hashCompareStub: HashComparer
@@ -53,9 +50,9 @@ describe('DbAuthentication usecase', () => {
   test('should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-    const authenticationRequest = makeFakeAuthentication()
-    await sut.auth(authenticationRequest)
-    expect(loadSpy).toHaveBeenCalledWith(authenticationRequest.email)
+    const authenticationParams = mockAuthenticationParams()
+    await sut.auth(authenticationParams)
+    expect(loadSpy).toHaveBeenCalledWith(authenticationParams.email)
   })
 
   test('should throw if LoadAccountByEmailRepository throws', async () => {
@@ -64,7 +61,7 @@ describe('DbAuthentication usecase', () => {
     jest
       .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
       .mockRejectedValueOnce(error)
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
     await expect(promise).rejects.toThrow()
   })
 
@@ -74,7 +71,7 @@ describe('DbAuthentication usecase', () => {
       .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
       .mockReturnValueOnce(null)
 
-    const accessToken = await sut.auth(makeFakeAuthentication())
+    const accessToken = await sut.auth(mockAuthenticationParams())
     expect(accessToken).toBeNull()
   })
 
@@ -82,10 +79,10 @@ describe('DbAuthentication usecase', () => {
     const { sut, hashCompareStub } = makeSut()
     const compareSpy = jest.spyOn(hashCompareStub, 'compare')
 
-    const authenticationRequest = makeFakeAuthentication()
-    await sut.auth(authenticationRequest)
+    const authenticationParams = mockAuthenticationParams()
+    await sut.auth(authenticationParams)
     expect(compareSpy).toHaveBeenCalledWith(
-      authenticationRequest.password,
+      authenticationParams.password,
       'hashed_password'
     )
   })
@@ -94,7 +91,7 @@ describe('DbAuthentication usecase', () => {
     const { sut, hashCompareStub } = makeSut()
     const error = new ServerError()
     jest.spyOn(hashCompareStub, 'compare').mockRejectedValueOnce(error)
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
     await expect(promise).rejects.toThrow()
   })
 
@@ -104,7 +101,7 @@ describe('DbAuthentication usecase', () => {
       .spyOn(hashCompareStub, 'compare')
       .mockReturnValueOnce(Promise.resolve(false))
 
-    const accessToken = await sut.auth(makeFakeAuthentication())
+    const accessToken = await sut.auth(mockAuthenticationParams())
     expect(accessToken).toBeNull()
   })
 
@@ -112,8 +109,8 @@ describe('DbAuthentication usecase', () => {
     const { sut, encrypterStub } = makeSut()
     const generateSpy = jest.spyOn(encrypterStub, 'encrypt')
 
-    const authenticationRequest = makeFakeAuthentication()
-    await sut.auth(authenticationRequest)
+    const authenticationParams = mockAuthenticationParams()
+    await sut.auth(authenticationParams)
     expect(generateSpy).toHaveBeenCalledWith('any_id')
   })
 
@@ -121,15 +118,15 @@ describe('DbAuthentication usecase', () => {
     const { sut, encrypterStub } = makeSut()
     const error = new ServerError()
     jest.spyOn(encrypterStub, 'encrypt').mockRejectedValueOnce(error)
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
     await expect(promise).rejects.toThrow()
   })
 
   test('should return accessToken on success', async () => {
     const { sut } = makeSut()
 
-    const authenticationRequest = makeFakeAuthentication()
-    const accessToken = await sut.auth(authenticationRequest)
+    const authenticationParams = mockAuthenticationParams()
+    const accessToken = await sut.auth(authenticationParams)
     expect(accessToken).toBe('valid_token')
   })
 
@@ -140,8 +137,8 @@ describe('DbAuthentication usecase', () => {
       'updateAccessToken'
     )
 
-    const authenticationRequest = makeFakeAuthentication()
-    await sut.auth(authenticationRequest)
+    const authenticationParams = mockAuthenticationParams()
+    await sut.auth(authenticationParams)
     expect(updateSpy).toHaveBeenCalledWith('any_id', 'valid_token')
   })
 
@@ -151,7 +148,7 @@ describe('DbAuthentication usecase', () => {
     jest
       .spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken')
       .mockRejectedValueOnce(error)
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
     await expect(promise).rejects.toThrow()
   })
 })
