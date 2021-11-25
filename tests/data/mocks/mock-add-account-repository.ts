@@ -5,6 +5,6 @@ import { AddAccountParams } from '@domain/usecases'
 
 export class AddAccountRepositoryStub implements AddAccountRepository {
   async add(account: AddAccountParams): Promise<AccountModel> {
-    return await new Promise((resolve) => resolve(mockAccountModel()))
+    return await Promise.resolve(mockAccountModel())
   }
 }
