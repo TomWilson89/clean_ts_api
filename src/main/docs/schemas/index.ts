@@ -1,4 +1,5 @@
 export * from './account'
+export * from './add-survey-params'
 export * from './api-key-auth'
 export * from './error'
 export * from './login-params'
