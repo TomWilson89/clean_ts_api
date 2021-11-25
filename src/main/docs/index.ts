@@ -23,6 +23,10 @@ export default {
     {
       name: 'Login',
       description: 'API related to authorization and authentication'
+    },
+    {
+      name: 'Survey',
+      description: 'API related to surveys'
     }
   ],
   paths,
