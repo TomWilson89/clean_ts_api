@@ -3,7 +3,8 @@ import { LoadSurveysController } from '@presentation/controller'
 import { noContent, serverError, successResponse } from '@presentation/helpers'
 import { Controller } from '@presentation/protocols'
 import MockDate from 'mockdate'
-import { LoadSurveysStub, makeFakeSuyrveys } from './mocks'
+import { mockSurveyModels } from '../domain/mocks'
+import { LoadSurveysStub } from './mocks'
 
 type SutTypes = {
   sut: Controller
@@ -41,7 +42,7 @@ describe('LoadSurveys Controller', () => {
     const { sut } = makeSut()
 
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(successResponse(makeFakeSuyrveys()))
+    expect(httpResponse).toEqual(successResponse(mockSurveyModels()))
   })
 
   test('should return 204 if LoadSurveys returns empty array', async () => {

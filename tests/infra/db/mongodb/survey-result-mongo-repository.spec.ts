@@ -1,4 +1,4 @@
-import { mockAddAccountParams } from '@/tests/domain/mocks'
+import { mockAddAccountParams, mockSurveyModel } from '@/tests/domain/mocks'
 import {
   LoadSurveyResultRepository,
   SaveSurveyResultRepository
@@ -12,20 +12,7 @@ let surveyResultCollection: Collection
 let accountCollection: Collection
 
 const makeFakeSurvey = async (): Promise<SurveyModel> => {
-  const newSurvey = {
-    question: 'any_question',
-    answers: [
-      {
-        image: 'any_image',
-        answer: 'any_answer'
-      },
-      {
-        image: 'other_image',
-        answer: 'other_answer'
-      }
-    ],
-    date: new Date()
-  }
+  const newSurvey = mockSurveyModel()
 
   const res = await surveyCollection.insertOne(newSurvey)
   const survey = (await surveyCollection.findOne({
