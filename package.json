@@ -1,6 +1,6 @@
 {
   "name": "clean_node_survey_api",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "main": "index.js",
   "author": "tomwilson <tomas.f.wilson@gmail.com>",
   "license": "MIT",
