@@ -4,9 +4,6 @@ export const surveyResultSchema = {
     surveyId: {
       type: 'string'
     },
-    accountId: {
-      type: 'string'
-    },
     question: {
       type: 'string'
     },
