@@ -6,6 +6,6 @@ export class LoadSurveyResultRepositoryStub
   implements LoadSurveyResultRepository
 {
   async loadBySurveyId(surveyId: string): Promise<SurveyResultModel> {
-    return mockSurveyResultModel()
+    return await Promise.resolve(mockSurveyResultModel())
   }
 }
