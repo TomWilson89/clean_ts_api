@@ -1,3 +1,4 @@
+import { mockSurveyResultModel } from '@/tests/domain/mocks'
 import { LoadSurveyResultRepository } from '@data/protocols'
 import { DbLoadSurveyResult } from '@data/usecases'
 import { LoadSurveyResult } from '@domain/usecases'
@@ -29,6 +30,12 @@ describe('DbLoadSurveyResult', () => {
     const surveyId = 'any_survey_id'
     await sut.load(surveyId)
     expect(loadBySurveyIdSpy).toHaveBeenCalledWith(surveyId)
+  })
+
+  test('should return survey result model if LoadSurveyResultRepository succedd', async () => {
+    const { sut } = makeSut()
+    const surveyResultModel = await sut.load('any_survey_id')
+    expect(surveyResultModel).toEqual(mockSurveyResultModel())
   })
 
   test('should throw is LoadSurveyResultRepository throws', async () => {
