@@ -58,10 +58,7 @@ describe('DbSaveSurveyResult', () => {
     )
     const surveyResultData = mockSurveyResultParams()
     await sut.save(surveyResultData)
-    expect(loadBySurveyIdSpy).toHaveBeenCalledWith(
-      surveyResultData.surveyId,
-      surveyResultData.accountId
-    )
+    expect(loadBySurveyIdSpy).toHaveBeenCalledWith(surveyResultData.surveyId)
   })
 
   test('should return a survey result on success', async () => {

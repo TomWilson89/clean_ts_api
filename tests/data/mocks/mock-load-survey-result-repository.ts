@@ -5,10 +5,7 @@ import { SurveyResultModel } from '@domain/models'
 export class LoadSurveyResultRepositoryStub
   implements LoadSurveyResultRepository
 {
-  async loadBySurveyId(
-    surveyId: string,
-    accountId: string
-  ): Promise<SurveyResultModel> {
+  async loadBySurveyId(surveyId: string): Promise<SurveyResultModel> {
     return mockSurveyResultModel()
   }
 }
