@@ -122,9 +122,12 @@ describe('Survey Mongo Repository', () => {
       })
 
       const surveyResult = await sut.loadBySurveyId(survey.id, account.id)
+      const existingSurveyResult = await surveyResultCollection.findOne({
+        _id: res.insertedId
+      })
 
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toEqual(res.insertedId)
+      expect(existingSurveyResult._id).toEqual(res.insertedId)
     })
 
     test('should return null if loadBySurveyId return null', async () => {
