@@ -76,4 +76,14 @@ describe('DbSaveSurveyResult', () => {
     const promise = sut.save(mockSurveyResultParams())
     await expect(promise).rejects.toThrow()
   })
+
+  test('should throw is LoadSurveyRestultRepository throws', async () => {
+    const { loadSurveyResultRepositoryStub, sut } = makeSut()
+    jest
+      .spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
+      .mockRejectedValueOnce(new Error())
+
+    const promise = sut.save(mockSurveyResultParams())
+    await expect(promise).rejects.toThrow()
+  })
 })
