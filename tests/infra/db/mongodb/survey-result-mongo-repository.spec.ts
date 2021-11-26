@@ -104,8 +104,8 @@ describe('Survey Mongo Repository', () => {
     })
   })
 
-  describe('loadById', () => {
-    test('should return a survey model if loadBySurveyId succeed', async () => {
+  describe('loadBySurveyId', () => {
+    test('should load survey result', async () => {
       const survey = await mockSurvey()
       const accountId = await mockAccountId()
       const accountId2 = await mockAccountId()
