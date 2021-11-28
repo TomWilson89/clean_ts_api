@@ -1,22 +1,34 @@
 import { mockSurveyResultModel } from '@/tests/domain/mocks'
-import { LoadSurveyResultRepository } from '@data/protocols'
+import {
+  LoadSurveyByIdRepository,
+  LoadSurveyResultRepository
+} from '@data/protocols'
 import { DbLoadSurveyResult } from '@data/usecases'
 import { LoadSurveyResult } from '@domain/usecases'
-import { LoadSurveyResultRepositoryStub } from '../mocks'
+import {
+  LoadSurveyByIdRepositoryStub,
+  LoadSurveyResultRepositoryStub
+} from '../mocks'
 
 type SutTypes = {
+  loadSurveyByIdRepositoryStub: LoadSurveyByIdRepository
   loadSurveyResultRepositoryStub: LoadSurveyResultRepository
   sut: LoadSurveyResult
 }
 
 const makeSut = (): SutTypes => {
   const loadSurveyResultRepositoryStub = new LoadSurveyResultRepositoryStub()
+  const loadSurveyByIdRepositoryStub = new LoadSurveyByIdRepositoryStub()
 
-  const sut = new DbLoadSurveyResult(loadSurveyResultRepositoryStub)
+  const sut = new DbLoadSurveyResult(
+    loadSurveyResultRepositoryStub,
+    loadSurveyByIdRepositoryStub
+  )
 
   return {
     sut,
-    loadSurveyResultRepositoryStub
+    loadSurveyResultRepositoryStub,
+    loadSurveyByIdRepositoryStub
   }
 }
 
@@ -46,5 +58,23 @@ describe('DbLoadSurveyResult', () => {
 
     const promise = sut.load('any_survey_id')
     await expect(promise).rejects.toThrow()
+  })
+
+  test('should return LoadSurveyByIdRepository if LoadSurveyResultRepository returns null', async () => {
+    const {
+      sut,
+      loadSurveyResultRepositoryStub,
+      loadSurveyByIdRepositoryStub
+    } = makeSut()
+    jest
+      .spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
+      .mockResolvedValueOnce(null)
+    const loadSurveyByIdSpy = jest.spyOn(
+      loadSurveyByIdRepositoryStub,
+      'loadById'
+    )
+    const surveyId = 'any_survey_id'
+    await sut.load(surveyId)
+    expect(loadSurveyByIdSpy).toHaveBeenCalledWith(surveyId)
   })
 })
