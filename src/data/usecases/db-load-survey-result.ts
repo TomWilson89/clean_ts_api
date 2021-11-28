@@ -2,7 +2,7 @@ import {
   LoadSurveyByIdRepository,
   LoadSurveyResultRepository
 } from '@data/protocols'
-import { SurveyResultModel } from '@domain/models'
+import { SurveyModel, SurveyResultModel } from '@domain/models'
 import { LoadSurveyResult } from '@domain/usecases'
 
 export class DbLoadSurveyResult implements LoadSurveyResult {
@@ -12,13 +12,27 @@ export class DbLoadSurveyResult implements LoadSurveyResult {
   ) {}
 
   async load(surveyId: string): Promise<SurveyResultModel> {
-    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(
+    let surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(
       surveyId
     )
 
     if (!surveyResult) {
-      await this.loadSurveyByIdRepository.loadById(surveyId)
+      const survey = await this.loadSurveyByIdRepository.loadById(surveyId)
+      surveyResult = this.makeEmptyResult(survey)
     }
     return surveyResult
+  }
+
+  private makeEmptyResult(survey: SurveyModel): SurveyResultModel {
+    return {
+      surveyId: survey.id,
+      question: survey.question,
+      date: survey.date,
+      answers: survey.answers.map((answer) => ({
+        answer: answer.answer,
+        count: 0,
+        percent: 0
+      }))
+    }
   }
 }
