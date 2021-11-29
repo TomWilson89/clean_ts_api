@@ -133,12 +133,20 @@ describe('Survey Mongo Repository', () => {
       expect(surveyResult.answers[1].percent).toBe(0)
       expect(surveyResult.answers.length).toBe(survey.answers.length)
     })
-  })
 
-  test('should return null if loadBySurveyId return null', async () => {
-    const { sut } = makeSut()
-    const surveyResult = await sut.loadBySurveyId('any_id')
+    test('should return null if call loadBySurveyId with invalid id', async () => {
+      const { sut } = makeSut()
+      const surveyResult = await sut.loadBySurveyId('invalid_any_id')
 
-    expect(surveyResult).toBeNull()
+      expect(surveyResult).toBeNull()
+    })
+
+    test('should return null if loadBySurveyId return null', async () => {
+      const survey = await mockSurvey()
+
+      const { sut } = makeSut()
+      const surveyResult = await sut.loadBySurveyId(survey.id)
+      expect(surveyResult).toBeNull()
+    })
   })
 })

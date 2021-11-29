@@ -204,6 +204,6 @@ export class SurveyResultMongoRepository
       .aggregate<SurveyResultModel>(query)
       .toArray()
 
-    return surveyResult?.length && surveyResult[0]
+    return surveyResult.length ? surveyResult[0] : null
   }
 }
