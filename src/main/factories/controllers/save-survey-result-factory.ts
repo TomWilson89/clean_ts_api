@@ -3,7 +3,7 @@ import { Controller } from '@presentation/protocols'
 import { makeLogControllerDecorator } from '../decorators'
 import { makeDbLoadSurveyById, makeDbSaveSurveyResult } from '../usecase'
 
-export const makeSurveyResultController = (): Controller => {
+export const makeSaveSurveyResultController = (): Controller => {
   const surveyResultController = new SaveSurveyResultController(
     makeDbLoadSurveyById(),
     makeDbSaveSurveyResult()
