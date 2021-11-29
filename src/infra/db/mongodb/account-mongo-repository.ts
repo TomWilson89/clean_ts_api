@@ -6,6 +6,7 @@ import {
 } from '@data/protocols'
 import { AccountModel } from '@domain/models'
 import { AddAccountParams } from '@domain/usecases'
+import { ObjectId } from 'mongodb'
 import { MongoHelper } from './helper'
 
 type AccountMongoRepositoryTypes = AddAccountRepository &
@@ -30,7 +31,7 @@ export class AccountMongoRepository implements AccountMongoRepositoryTypes {
   async updateAccessToken(id: string, token: string): Promise<void> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.updateOne(
-      { _id: id },
+      { _id: new ObjectId(id) },
       { $set: { accessToken: token } }
     )
   }
