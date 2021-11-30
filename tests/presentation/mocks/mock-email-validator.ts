@@ -1,7 +1,10 @@
 import { EmailValidator } from '@validations/protocots'
 
-export class EmailValidatorStub implements EmailValidator {
+export class EmailValidatorSpy implements EmailValidator {
+  email: string
+  result = true
   isValid(email: string): boolean {
-    return true
+    this.email = email
+    return this.result
   }
 }

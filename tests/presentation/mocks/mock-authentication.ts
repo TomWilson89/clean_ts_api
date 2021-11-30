@@ -1,7 +1,10 @@
 import { Authentication, AuthenticationParams } from '@domain/usecases'
-
-export class AuthenticationStub implements Authentication {
+import faker from 'faker'
+export class AuthenticationSpy implements Authentication {
+  params: AuthenticationParams
+  result = faker.datatype.uuid()
   async auth(authentication: AuthenticationParams): Promise<string> {
-    return 'any_token'
+    this.params = authentication
+    return this.result
   }
 }

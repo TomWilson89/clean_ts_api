@@ -1,8 +1,9 @@
 import { mockSurveyModels } from '@/tests/domain/mocks'
 import { LoadSurveysRepository } from '@data/protocols'
 import { SurveyModel } from '@domain/models'
-export class LoadSurveysRepositoryStub implements LoadSurveysRepository {
+export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
+  result = mockSurveyModels()
   async loadAll(): Promise<SurveyModel[]> {
-    return mockSurveyModels()
+    return this.result
   }
 }

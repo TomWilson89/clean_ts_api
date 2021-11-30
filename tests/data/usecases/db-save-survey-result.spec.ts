@@ -1,36 +1,29 @@
-import {
-  mockSurveyResultModel,
-  mockSurveyResultParams
-} from '@/tests/domain/mocks'
-import {
-  LoadSurveyResultRepository,
-  SaveSurveyResultRepository
-} from '@data/protocols'
+import { mockSurveyResultParams } from '@/tests/domain/mocks'
 import { DbSaveSurveyResult } from '@data/usecases'
 import { SaveSurveyResult } from '@domain/usecases'
 import MockDate from 'mockdate'
 import {
-  LoadSurveyResultRepositoryStub,
-  SaveSurveyResultRepositoryStub
+  LoadSurveyResultRepositorySpy,
+  SaveSurveyResultRepositorySpy
 } from '../mocks'
 
 type SutTypes = {
-  saveSurveyResultRepositoryStub: SaveSurveyResultRepository
-  loadSurveyResultRepositoryStub: LoadSurveyResultRepository
+  saveSurveyResultRepositorySpy: SaveSurveyResultRepositorySpy
+  loadSurveyResultRepositorySpy: LoadSurveyResultRepositorySpy
   sut: SaveSurveyResult
 }
 
 const makeSut = (): SutTypes => {
-  const saveSurveyResultRepositoryStub = new SaveSurveyResultRepositoryStub()
-  const loadSurveyResultRepositoryStub = new LoadSurveyResultRepositoryStub()
+  const saveSurveyResultRepositorySpy = new SaveSurveyResultRepositorySpy()
+  const loadSurveyResultRepositorySpy = new LoadSurveyResultRepositorySpy()
   const sut = new DbSaveSurveyResult(
-    saveSurveyResultRepositoryStub,
-    loadSurveyResultRepositoryStub
+    saveSurveyResultRepositorySpy,
+    loadSurveyResultRepositorySpy
   )
   return {
     sut,
-    saveSurveyResultRepositoryStub,
-    loadSurveyResultRepositoryStub
+    saveSurveyResultRepositorySpy,
+    loadSurveyResultRepositorySpy
   }
 }
 describe('DbSaveSurveyResult', () => {
@@ -43,34 +36,33 @@ describe('DbSaveSurveyResult', () => {
   })
 
   test('should call SaveSurveyResultRepository with corect values', async () => {
-    const { sut, saveSurveyResultRepositoryStub } = makeSut()
-    const saveSpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save')
+    const { sut, saveSurveyResultRepositorySpy } = makeSut()
+
     const surveyResultParams = mockSurveyResultParams()
     await sut.save(surveyResultParams)
-    expect(saveSpy).toHaveBeenCalledWith(surveyResultParams)
+    expect(saveSurveyResultRepositorySpy.params).toEqual(surveyResultParams)
   })
 
   test('should call LoadSurveyRestultRepository with correct values', async () => {
-    const { sut, loadSurveyResultRepositoryStub } = makeSut()
-    const loadBySurveyIdSpy = jest.spyOn(
-      loadSurveyResultRepositoryStub,
-      'loadBySurveyId'
-    )
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
     const surveyResultData = mockSurveyResultParams()
     await sut.save(surveyResultData)
-    expect(loadBySurveyIdSpy).toHaveBeenCalledWith(surveyResultData.surveyId)
+
+    expect(loadSurveyResultRepositorySpy.surveyId).toBe(
+      surveyResultData.surveyId
+    )
   })
 
   test('should return a survey result on success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
     const surveyResult = await sut.save(mockSurveyResultParams())
-    expect(surveyResult).toEqual(mockSurveyResultModel())
+    expect(surveyResult).toEqual(loadSurveyResultRepositorySpy.result)
   })
 
   test('should throw is SaveSurveyResultRepository throws', async () => {
-    const { saveSurveyResultRepositoryStub, sut } = makeSut()
+    const { saveSurveyResultRepositorySpy, sut } = makeSut()
     jest
-      .spyOn(saveSurveyResultRepositoryStub, 'save')
+      .spyOn(saveSurveyResultRepositorySpy, 'save')
       .mockRejectedValueOnce(new Error())
 
     const promise = sut.save(mockSurveyResultParams())
@@ -78,9 +70,9 @@ describe('DbSaveSurveyResult', () => {
   })
 
   test('should throw is LoadSurveyRestultRepository throws', async () => {
-    const { loadSurveyResultRepositoryStub, sut } = makeSut()
+    const { loadSurveyResultRepositorySpy, sut } = makeSut()
     jest
-      .spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
+      .spyOn(loadSurveyResultRepositorySpy, 'loadBySurveyId')
       .mockRejectedValueOnce(new Error())
 
     const promise = sut.save(mockSurveyResultParams())

@@ -1,22 +1,20 @@
-import { mockSurveyModels } from '@/tests/domain/mocks'
-import { LoadSurveysRepository } from '@data/protocols'
 import { DbLoadSurveys } from '@data/usecases'
 import { LoadSurveys } from '@domain/usecases'
 import MockDate from 'mockdate'
-import { LoadSurveysRepositoryStub } from '../mocks/'
+import { LoadSurveysRepositorySpy } from '../mocks/'
 
 type SutTypes = {
   sut: LoadSurveys
-  loadSurveysRepositoryStub: LoadSurveysRepository
+  loadSurveysRepositorySpy: LoadSurveysRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveysRepositoryStub = new LoadSurveysRepositoryStub()
-  const sut = new DbLoadSurveys(loadSurveysRepositoryStub)
+  const loadSurveysRepositorySpy = new LoadSurveysRepositorySpy()
+  const sut = new DbLoadSurveys(loadSurveysRepositorySpy)
 
   return {
     sut,
-    loadSurveysRepositoryStub
+    loadSurveysRepositorySpy
   }
 }
 
@@ -29,22 +27,22 @@ describe('DbLoadSurveys', () => {
     MockDate.reset()
   })
   test('should call LoadSurveysRepository', async () => {
-    const { sut, loadSurveysRepositoryStub } = makeSut()
-    const loadAllSpy = jest.spyOn(loadSurveysRepositoryStub, 'loadAll')
+    const { sut, loadSurveysRepositorySpy } = makeSut()
+    const loadAllSpy = jest.spyOn(loadSurveysRepositorySpy, 'loadAll')
     await sut.load()
     expect(loadAllSpy).toHaveBeenCalled()
   })
 
   test('should return a list of surveys if LoadSurveysRepository success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveysRepositorySpy } = makeSut()
     const httpResponse = await sut.load()
-    expect(httpResponse).toEqual(mockSurveyModels())
+    expect(httpResponse).toEqual(loadSurveysRepositorySpy.result)
   })
 
   test('should throw is LoadSurveysRepository throws', async () => {
-    const { loadSurveysRepositoryStub, sut } = makeSut()
+    const { loadSurveysRepositorySpy, sut } = makeSut()
     jest
-      .spyOn(loadSurveysRepositoryStub, 'loadAll')
+      .spyOn(loadSurveysRepositorySpy, 'loadAll')
       .mockRejectedValueOnce(new Error())
 
     const promise = sut.load()

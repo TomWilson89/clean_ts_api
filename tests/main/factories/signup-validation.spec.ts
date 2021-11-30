@@ -1,4 +1,4 @@
-import { EmailValidatorStub } from '@/tests/presentation/mocks'
+import { EmailValidationAdapter } from '@infra/validations'
 import { makeSignUpValidation } from '@main/factories'
 import { Validation } from '@presentation/protocols'
 import {
@@ -21,7 +21,7 @@ describe('SignUp Validation Factory', () => {
       new CompareFieldValidation('password', 'passwordConfirmation')
     )
 
-    validations.push(new EmailValidation('email', new EmailValidatorStub()))
+    validations.push(new EmailValidation('email', new EmailValidationAdapter()))
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })

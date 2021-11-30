@@ -1,7 +1,10 @@
 import { Encrypter } from '@data/protocols'
-
-export class EncrypterStub implements Encrypter {
-  async encrypt(value: string): Promise<string> {
-    return 'valid_token'
+import faker from 'faker'
+export class EncrypterSpy implements Encrypter {
+  plainText: string
+  cipherValue = faker.datatype.uuid()
+  async encrypt(plainText: string): Promise<string> {
+    this.plainText = plainText
+    return this.cipherValue
   }
 }

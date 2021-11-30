@@ -1,38 +1,39 @@
 import { SurveyModel } from '@domain/models'
 import { AddSurveyParams } from '@domain/usecases'
+import faker from 'faker'
 
 export const mockAddSurveyParams = (): AddSurveyParams => {
   return {
-    question: 'any_question',
+    question: faker.random.words(),
     answers: [
       {
-        image: 'any_image',
-        answer: 'any_answer'
+        image: faker.image.imageUrl(),
+        answer: faker.random.words()
       },
       {
-        image: 'any_image',
-        answer: 'any_answer2'
+        image: faker.image.imageUrl(),
+        answer: faker.random.words()
       }
     ],
-    date: new Date()
+    date: faker.date.recent()
   }
 }
 
 export const mockSurveyModel = (): SurveyModel => {
   return {
-    id: 'any_id',
-    question: 'any_question',
+    id: faker.datatype.uuid(),
+    question: faker.random.words(),
     answers: [
       {
-        image: 'any_image',
-        answer: 'any_answer'
+        image: faker.image.imageUrl(),
+        answer: faker.random.words()
       },
       {
-        image: 'any_image',
-        answer: 'other_answer'
+        image: faker.image.imageUrl(),
+        answer: faker.random.words()
       }
     ],
-    date: new Date()
+    date: faker.date.recent()
   }
 }
 

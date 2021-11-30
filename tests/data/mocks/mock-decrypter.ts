@@ -1,7 +1,10 @@
 import { Decrypter } from '@data/protocols'
-
-export class DecryypterStub implements Decrypter {
-  async decrypt(value: string): Promise<string> {
-    return await Promise.resolve('any_value')
+import faker from 'faker'
+export class DecryypterSpy implements Decrypter {
+  plainText: string
+  cipherText = faker.datatype.uuid()
+  async decrypt(plainText: string): Promise<string> {
+    this.plainText = plainText
+    return this.cipherText
   }
 }

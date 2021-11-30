@@ -1,10 +1,11 @@
 import { mockAddAccountParams } from '@/tests/domain/mocks'
 import { AccountMongoRepository, MongoHelper } from '@infra/db'
+import faker from 'faker'
 import { Collection } from 'mongodb'
 
-const makeFakeUserWithToken = (): any => ({
+const makeFakeUserWithToken = (accessToken = faker.datatype.uuid()): any => ({
   ...mockAddAccountParams(),
-  accessToken: 'any_token'
+  accessToken
 })
 
 interface SutTpes {
@@ -78,12 +79,13 @@ describe('Account Mongo Repositorty', () => {
       })
       expect(fakeAccount).toBeTruthy()
       expect(fakeAccount?.accessToken).toBeFalsy()
+      const token = faker.datatype.uuid()
 
-      await sut.updateAccessToken(fakeAccount._id, 'any_token')
+      await sut.updateAccessToken(fakeAccount._id, token)
       const account = await accountColletion.findOne({ _id: res.insertedId })
 
       expect(account).toBeTruthy()
-      expect(account.accessToken).toBe('any_token')
+      expect(account.accessToken).toBe(token)
     })
   })
 
@@ -118,7 +120,7 @@ describe('Account Mongo Repositorty', () => {
       expect(account.password).toBe(user.password)
     })
 
-    test('should return null wiht invalid role', async () => {
+    test('should return null with invalid role', async () => {
       const { sut } = makeSut()
       const user = makeFakeUserWithToken()
       await accountColletion.insertOne(user)
@@ -147,7 +149,7 @@ describe('Account Mongo Repositorty', () => {
     test('should return null if loadByToken fails', async () => {
       const { sut } = makeSut()
 
-      const account = await sut.loadByToken('any_token')
+      const account = await sut.loadByToken(faker.datatype.uuid())
 
       expect(account).toBeFalsy()
     })

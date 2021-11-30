@@ -1,7 +1,10 @@
 import { Hasher } from '@data/protocols'
-
-export class HasherStub implements Hasher {
-  async hash(value: string): Promise<string> {
-    return await Promise.resolve('hashed_password')
+import faker from 'faker'
+export class HasherSpy implements Hasher {
+  cipherText = faker.datatype.uuid()
+  plainText: string
+  async hash(plainText: string): Promise<string> {
+    this.plainText = plainText
+    return this.cipherText
   }
 }

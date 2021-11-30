@@ -1,12 +1,11 @@
-import { SaveSurveyResult } from '@domain/usecases'
+import { LoadSurveysById, SaveSurveyResult } from '@domain/usecases'
 import { InvalidParamError } from '@presentation/errors'
 import { forbidden, serverError, successResponse } from '@presentation/helpers'
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols'
-import { LoadSurveyByIdStub } from '../mocks'
 
 export class SaveSurveyResultController implements Controller {
   constructor(
-    private readonly loadSurveyById: LoadSurveyByIdStub,
+    private readonly loadSurveyById: LoadSurveysById,
     private readonly saveSurveyResult: SaveSurveyResult
   ) {}
 
@@ -22,7 +21,6 @@ export class SaveSurveyResultController implements Controller {
       const { answer } = httpRequest.body
       const { accountId } = httpRequest
       const answers = survey.answers.map((a) => a.answer)
-
       if (!answers.includes(answer)) {
         return forbidden(new InvalidParamError('answer'))
       }

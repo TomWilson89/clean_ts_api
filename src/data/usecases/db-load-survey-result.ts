@@ -29,7 +29,7 @@ export class DbLoadSurveyResult implements LoadSurveyResult {
       question: survey.question,
       date: survey.date,
       answers: survey.answers.map((answer) => ({
-        answer: answer.answer,
+        ...answer,
         count: 0,
         percent: 0
       }))

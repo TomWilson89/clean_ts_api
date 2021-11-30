@@ -47,15 +47,15 @@ describe('Survey Mongo Repository', () => {
   describe('loadAll()', () => {
     test('should load all surveys on success', async () => {
       const { sut } = makeSutTypes()
-      await surveyCollection.insertMany([
-        mockAddSurveyParams(),
-        mockAddSurveyParams()
-      ])
-      const surveys = await sut.loadAll()
-      expect(surveys.length).toBe(2)
-      expect(surveys[0].id).toBeTruthy()
-      expect(surveys[0].question).toBe('any_question')
-      expect(surveys[1].question).toBe('any_question')
+      const surveys = [mockAddSurveyParams(), mockAddSurveyParams()]
+
+      await surveyCollection.insertMany(surveys)
+
+      const surveysResult = await sut.loadAll()
+      expect(surveysResult.length).toBe(2)
+      expect(surveysResult[0].id).toBeTruthy()
+      expect(surveysResult[0].question).toBe(surveys[0].question)
+      expect(surveysResult[1].question).toBe(surveys[1].question)
     })
 
     test('should load empyt list', async () => {

@@ -1,7 +1,12 @@
 import { UpdateAccessTokenRepository } from '@data/protocols'
 
-export class UpdateAccessTokenRepositoryStub
+export class UpdateAccessTokenRepositorySpy
   implements UpdateAccessTokenRepository
 {
-  async updateAccessToken(id: string, token: string): Promise<void> {}
+  id: string
+  token: string
+  async updateAccessToken(id: string, token: string): Promise<void> {
+    this.id = id
+    this.token = token
+  }
 }
