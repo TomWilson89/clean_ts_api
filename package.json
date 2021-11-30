@@ -16,6 +16,7 @@
     "@types/swagger-ui-express": "^4.1.3",
     "@types/validator": "^13.6.6",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.12.1",
     "eslint-config-standard-with-typescript": "^21.0.1",
     "eslint-plugin-import": "^2.22.1",
@@ -34,9 +35,10 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "start": "node dist/src/main/server.js",
+    "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/src/main/server.js",
+    "postbuild": "copyfiles -u 1 public/**/* dist/static",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
     "docker:up": "yarn build && docker-compose up",
     "docker:down": "docker compose down",
     "prepare": "husky install",
@@ -62,11 +64,11 @@
     "node": "14.x"
   },
   "_moduleAliases": {
-    "@infra": "dist/src/infra",
-    "@domain": "dist/src/domain",
-    "@validations": "dist/src/validations",
-    "@data": "dist/src/data",
-    "@main": "dist/src/main",
-    "@presentation": "dist/src/presentation"
+    "@infra": "dist/infra",
+    "@domain": "dist/domain",
+    "@validations": "dist/validations",
+    "@data": "dist/data",
+    "@main": "dist/main",
+    "@presentation": "dist/presentation"
   }
 }
