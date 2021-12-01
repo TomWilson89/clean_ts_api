@@ -22,12 +22,15 @@ export class LoginController implements Controller {
         return badRequest(error)
       }
 
-      const accessToken = await this.authentication.auth({ email, password })
-      if (!accessToken) {
+      const authenticationModel = await this.authentication.auth({
+        email,
+        password
+      })
+      if (!authenticationModel) {
         return unauthorized()
       }
 
-      return successResponse({ accessToken })
+      return successResponse(authenticationModel)
     } catch (error) {
       return serverError(new ServerError())
     }
