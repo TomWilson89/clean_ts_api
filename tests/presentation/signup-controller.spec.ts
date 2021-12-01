@@ -140,9 +140,7 @@ describe('SignUp controller', () => {
       const httpRequest = mockRequest()
 
       const httpResponse = await sut.handle(httpRequest)
-      expect(httpResponse).toEqual(
-        successResponse({ accessToken: authenticationSpy.result })
-      )
+      expect(httpResponse).toEqual(successResponse(authenticationSpy.result))
     })
   })
 })

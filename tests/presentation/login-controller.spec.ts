@@ -75,18 +75,15 @@ describe('Login Controller', () => {
     const httpRequest = mockRequest()
 
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(
-      successResponse({ accessToken: authenticationSpy.result })
-    )
+    expect(httpResponse).toEqual(successResponse(authenticationSpy.result))
   })
 
   test('should call Validation with correct values', async () => {
     const { sut, validationSpy } = makeSut()
-    const validateSpy = jest.spyOn(validationSpy, 'validate')
     const httpRequest = mockRequest()
 
     await sut.handle(httpRequest)
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validationSpy.input).toEqual(httpRequest.body)
   })
 
   test('should return 400 if Validation returns an error', async () => {
