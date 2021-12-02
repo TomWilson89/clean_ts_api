@@ -1,5 +1,6 @@
 import { DbLoadSurveys } from '@data/usecases'
 import { LoadSurveys } from '@domain/usecases'
+import faker from 'faker'
 import MockDate from 'mockdate'
 import { LoadSurveysRepositorySpy } from '../mocks/'
 
@@ -28,14 +29,16 @@ describe('DbLoadSurveys', () => {
   })
   test('should call LoadSurveysRepository', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
-    const loadAllSpy = jest.spyOn(loadSurveysRepositorySpy, 'loadAll')
-    await sut.load()
-    expect(loadAllSpy).toHaveBeenCalled()
+
+    const accountId = faker.datatype.uuid()
+    await sut.load(accountId)
+
+    expect(loadSurveysRepositorySpy.accountId).toBe(accountId)
   })
 
   test('should return a list of surveys if LoadSurveysRepository success', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
-    const httpResponse = await sut.load()
+    const httpResponse = await sut.load(faker.datatype.uuid())
     expect(httpResponse).toEqual(loadSurveysRepositorySpy.result)
   })
 
@@ -45,7 +48,7 @@ describe('DbLoadSurveys', () => {
       .spyOn(loadSurveysRepositorySpy, 'loadAll')
       .mockRejectedValueOnce(new Error())
 
-    const promise = sut.load()
+    const promise = sut.load(faker.datatype.uuid())
     await expect(promise).rejects.toThrow()
   })
 })

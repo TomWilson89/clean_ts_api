@@ -1,13 +1,21 @@
-import { mockAddSurveyParams } from '@/tests/domain/mocks'
+import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks'
 import {
   AddSurveyRepository,
   LoadSurveyByIdRepository,
   LoadSurveysRepository
 } from '@data//protocols/db/surveys'
 import { MongoHelper, SurveyMongoRepository } from '@infra/db'
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 
 let surveyCollection: Collection
+let surveyResultCollection: Collection
+let accountCollection: Collection
+
+const mockAccountId = async (): Promise<string> => {
+  const res = await accountCollection.insertOne(mockAddAccountParams())
+
+  return res.insertedId.toHexString()
+}
 
 type SutTypes = {
   sut: AddSurveyRepository & LoadSurveysRepository & LoadSurveyByIdRepository
@@ -33,7 +41,12 @@ describe('Survey Mongo Repository', () => {
   beforeEach(async () => {
     surveyCollection = await MongoHelper.getCollection('surveys')
     await surveyCollection.deleteMany({})
+    surveyResultCollection = await MongoHelper.getCollection('surveyResults')
+    await surveyResultCollection.deleteMany({})
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
+
   describe('add()', () => {
     test('should return a survey to database on success', async () => {
       const { sut } = makeSutTypes()
@@ -47,20 +60,34 @@ describe('Survey Mongo Repository', () => {
   describe('loadAll()', () => {
     test('should load all surveys on success', async () => {
       const { sut } = makeSutTypes()
-      const surveys = [mockAddSurveyParams(), mockAddSurveyParams()]
+      const accountId = await mockAccountId()
 
-      await surveyCollection.insertMany(surveys)
+      const addSurveys = [mockAddSurveyParams(), mockAddSurveyParams()]
+      const result = await surveyCollection.insertMany(addSurveys)
+      const survey = await surveyCollection.findOne({
+        _id: result.insertedIds[0]
+      })
 
-      const surveysResult = await sut.loadAll()
+      await surveyResultCollection.insertOne({
+        surveyId: survey._id,
+        accountId: new ObjectId(accountId),
+        answer: survey.answers[0].answer,
+        date: new Date()
+      })
+
+      const surveysResult = await sut.loadAll(accountId)
+
       expect(surveysResult.length).toBe(2)
       expect(surveysResult[0].id).toBeTruthy()
-      expect(surveysResult[0].question).toBe(surveys[0].question)
-      expect(surveysResult[1].question).toBe(surveys[1].question)
+      expect(surveysResult[0].question).toBe(addSurveys[0].question)
+      expect(surveysResult[0].didAnswer).toBe(true)
+      expect(surveysResult[1].question).toBe(addSurveys[1].question)
+      expect(surveysResult[1].didAnswer).toBe(false)
     })
 
     test('should load empyt list', async () => {
       const { sut } = makeSutTypes()
-      const surveys = await sut.loadAll()
+      const surveys = await sut.loadAll(await mockAccountId())
       expect(Array.isArray(surveys)).toBe(true)
       expect(surveys.length).toBe(0)
     })
