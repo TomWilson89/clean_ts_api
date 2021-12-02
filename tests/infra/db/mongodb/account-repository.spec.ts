@@ -39,9 +39,9 @@ describe('Account Mongo Repositorty', () => {
   describe('add', () => {
     test('should return a valid id on success', async () => {
       const { sut } = makeSut()
-      const account = await sut.add(mockAddAccountParams())
+      const isValid = await sut.add(mockAddAccountParams())
 
-      expect(account).toBeTruthy()
+      expect(isValid).toBe(true)
     })
   })
 
@@ -56,7 +56,6 @@ describe('Account Mongo Repositorty', () => {
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe(user.name)
-      expect(account.email).toBe(user.email)
       expect(account.password).toBe(user.password)
     })
 
