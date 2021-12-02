@@ -1,15 +1,13 @@
 import { AccessDeniedError } from '@presentation/errors'
 import { forbidden, serverError, successResponse } from '@presentation/helpers'
 import { AuthMiddleware } from '@presentation/middlewares'
-import { HttpRequest, Middleware } from '@presentation/protocols'
+import { Middleware } from '@presentation/protocols'
 import faker from 'faker'
 import { LoadAccountByTokenSpy } from './mocks'
 
-const mockRequest = (): HttpRequest => {
+const mockRequest = (): AuthMiddleware.Request => {
   return {
-    headers: {
-      'x-access-token': faker.datatype.uuid()
-    }
+    accessToken: faker.datatype.uuid()
   }
 }
 
@@ -38,12 +36,9 @@ describe('Auth Middleware', () => {
     const role = 'any_role'
     const { sut, loadAccountByTokenSpy } = makeSut(role)
     const loadSpy = jest.spyOn(loadAccountByTokenSpy, 'load')
-    const httpRequest = mockRequest()
-    await sut.handle(httpRequest)
-    expect(loadSpy).toHaveBeenCalledWith(
-      httpRequest.headers['x-access-token'],
-      role
-    )
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(loadSpy).toHaveBeenCalledWith(request.accessToken, role)
   })
 
   test('should return 403 if LoadAccountByToken return null', async () => {

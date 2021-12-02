@@ -35,7 +35,7 @@ const makeSut = (loadByEmailValue = null): SutTypes => {
   }
 }
 
-describe.only('DbAddAccount usecase', () => {
+describe('DbAddAccount usecase', () => {
   test('should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositorySpy } = makeSut()
 
@@ -57,13 +57,13 @@ describe.only('DbAddAccount usecase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('should return null if LoadAccountByEmailRepository returns an account', async () => {
+  test('should return false if LoadAccountByEmailRepository returns an account', async () => {
     const existingAccount = mockAccountModel()
     const { sut } = makeSut(existingAccount)
 
     const accountParams = mockAddAccountParams()
-    const accessToken = await sut.add(accountParams)
-    expect(accessToken).toBeNull()
+    const isValid = await sut.add(accountParams)
+    expect(isValid).toBe(false)
   })
 
   test('should call Hasher with correct password ', async () => {
@@ -107,12 +107,12 @@ describe.only('DbAddAccount usecase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('should return an account on success ', async () => {
-    const { sut, addAccountRepositorySpy } = makeSut()
+  test('should return true on success ', async () => {
+    const { sut } = makeSut()
 
     const accountParams = mockAddAccountParams()
-    const account = await sut.add(accountParams)
+    const isValid = await sut.add(accountParams)
 
-    expect(account).toEqual(addAccountRepositorySpy.accountModel)
+    expect(isValid).toBe(true)
   })
 })

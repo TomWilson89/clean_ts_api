@@ -1,16 +1,16 @@
+import { SignUpController } from '@presentation/controller'
 import { InvalidParamError } from '@presentation/errors'
-import { HttpRequest } from '@presentation/protocols'
 import { EmailValidation } from '@validations/validators'
+import faker from 'faker'
 import { EmailValidatorSpy } from '../../presentation/mocks'
 
-const makeRequest = (): HttpRequest => {
+const makeRequest = (): SignUpController.Request => {
+  const password = faker.internet.password()
   return {
-    body: {
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: 'valid_password',
-      passwordConfirmation: 'valid_password'
-    }
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    password,
+    passwordConfirmation: password
   }
 }
 
@@ -39,10 +39,10 @@ describe('EmailValidation', () => {
 
   test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorSpy } = makeSut()
-    const httpRequest = makeRequest()
+    const request = makeRequest()
 
-    await sut.validate({ email: httpRequest.body.email })
-    expect(emailValidatorSpy.email).toBe(httpRequest.body.email)
+    await sut.validate({ email: request.email })
+    expect(emailValidatorSpy.email).toBe(request.email)
   })
 
   test('should throw EmailValidator throws', async () => {
