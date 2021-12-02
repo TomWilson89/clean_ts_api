@@ -9,7 +9,8 @@ import { LoadSurveyByIdSpy, LoadSurveyResultSpy } from './mocks'
 const mockHttpRequest = (): HttpRequest => ({
   params: {
     surveyId: faker.datatype.uuid()
-  }
+  },
+  accountId: faker.datatype.uuid()
 })
 
 type SutTypes = {
@@ -71,6 +72,7 @@ describe('LoadSurveyResult controller', () => {
     const httpRequest = mockHttpRequest()
     await sut.handle(httpRequest)
     expect(loadSurveyResultSpy.surveyId).toBe(httpRequest.params.surveyId)
+    expect(loadSurveyResultSpy.accountId).toBe(httpRequest.accountId)
   })
 
   test('should return 500 if LoadSurveyResult throws', async () => {

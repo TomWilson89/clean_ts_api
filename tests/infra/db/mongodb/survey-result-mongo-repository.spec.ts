@@ -5,6 +5,7 @@ import {
 } from '@data//protocols/db/surveys'
 import { SurveyModel } from '@domain/models'
 import { MongoHelper, SurveyResultMongoRepository } from '@infra/db'
+import faker from 'faker'
 import { Collection, ObjectId } from 'mongodb'
 
 let surveyCollection: Collection
@@ -13,9 +14,9 @@ let accountCollection: Collection
 
 const mockSurvey = async (): Promise<SurveyModel> => {
   const res = await surveyCollection.insertOne(mockAddSurveyParams())
-  const survey = (await surveyCollection.findOne({
+  const survey = await surveyCollection.findOne({
     _id: res.insertedId
-  })) as SurveyModel
+  })
   return survey && MongoHelper.map(survey)
 }
 
@@ -124,28 +125,34 @@ describe('Survey Mongo Repository', () => {
         }
       ])
       const { sut } = makeSut()
-      const surveyResult = await sut.loadBySurveyId(survey.id)
+      const surveyResult = await sut.loadBySurveyId(survey.id, accountId)
       expect(surveyResult).toBeTruthy()
       expect(surveyResult.surveyId).toEqual(survey.id)
       expect(surveyResult.answers[0].count).toBe(2)
       expect(surveyResult.answers[0].percent).toBe(100)
+      expect(surveyResult.answers[0].isCurrentAccountAnswer).toBeTruthy()
       expect(surveyResult.answers[1].count).toBe(0)
       expect(surveyResult.answers[1].percent).toBe(0)
+      expect(surveyResult.answers[1].isCurrentAccountAnswer).toBeFalsy()
       expect(surveyResult.answers.length).toBe(survey.answers.length)
     })
 
     test('should return null if call loadBySurveyId with invalid id', async () => {
       const { sut } = makeSut()
-      const surveyResult = await sut.loadBySurveyId('invalid_any_id')
+      const surveyResult = await sut.loadBySurveyId(
+        faker.datatype.uuid(),
+        faker.datatype.uuid()
+      )
 
       expect(surveyResult).toBeNull()
     })
 
     test('should return null if loadBySurveyId return null', async () => {
       const survey = await mockSurvey()
+      const accountId = await mockAccountId()
 
       const { sut } = makeSut()
-      const surveyResult = await sut.loadBySurveyId(survey.id)
+      const surveyResult = await sut.loadBySurveyId(survey.id, accountId)
       expect(surveyResult).toBeNull()
     })
   })

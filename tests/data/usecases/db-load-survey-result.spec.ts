@@ -42,13 +42,18 @@ describe('DbLoadSurveyResult', () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
 
     const surveyId = faker.datatype.uuid()
-    await sut.load(surveyId)
+    const accountId = faker.datatype.uuid()
+    await sut.load(surveyId, accountId)
     expect(loadSurveyResultRepositorySpy.surveyId).toBe(surveyId)
+    expect(loadSurveyResultRepositorySpy.accountId).toBe(accountId)
   })
 
   test('should return survey result model if LoadSurveyResultRepository succeed', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
-    const surveyResultModel = await sut.load(faker.datatype.uuid())
+    const surveyResultModel = await sut.load(
+      faker.datatype.uuid(),
+      faker.datatype.uuid()
+    )
     expect(surveyResultModel).toEqual(loadSurveyResultRepositorySpy.result)
   })
 
@@ -58,7 +63,7 @@ describe('DbLoadSurveyResult', () => {
       .spyOn(loadSurveyResultRepositorySpy, 'loadBySurveyId')
       .mockRejectedValueOnce(new Error())
 
-    const promise = sut.load('any_survey_id')
+    const promise = sut.load(faker.datatype.uuid(), faker.datatype.uuid())
     await expect(promise).rejects.toThrow()
   })
 
@@ -69,7 +74,8 @@ describe('DbLoadSurveyResult', () => {
     loadSurveyResultRepositorySpy.result = null
 
     const surveyId = faker.datatype.uuid()
-    await sut.load(surveyId)
+    const accountId = faker.datatype.uuid()
+    await sut.load(surveyId, accountId)
     expect(loadSurveyByIdRepositorySpy.id).toBe(surveyId)
   })
 
@@ -77,9 +83,11 @@ describe('DbLoadSurveyResult', () => {
     const { sut, loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy } =
       makeSut()
     const surveyId = faker.datatype.uuid()
+    const accountId = faker.datatype.uuid()
+
     loadSurveyResultRepositorySpy.result = null
 
-    const surveyResult = await sut.load(surveyId)
+    const surveyResult = await sut.load(surveyId, accountId)
     const { result } = loadSurveyByIdRepositorySpy
 
     expect(surveyResult).toEqual({
@@ -89,7 +97,8 @@ describe('DbLoadSurveyResult', () => {
       answers: result.answers.map((answer) => ({
         ...answer,
         count: 0,
-        percent: 0
+        percent: 0,
+        isCurrentAccountAnswer: false
       }))
     })
   })
