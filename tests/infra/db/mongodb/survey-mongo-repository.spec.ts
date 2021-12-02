@@ -1,10 +1,12 @@
 import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks'
 import {
   AddSurveyRepository,
+  CheckSurveyByIdRepository,
   LoadSurveyByIdRepository,
   LoadSurveysRepository
-} from '@data//protocols/db/surveys'
+} from '@data/protocols/db/surveys'
 import { MongoHelper, SurveyMongoRepository } from '@infra/db'
+import FakeObjectId from 'bson-objectid'
 import { Collection, ObjectId } from 'mongodb'
 
 let surveyCollection: Collection
@@ -18,7 +20,10 @@ const mockAccountId = async (): Promise<string> => {
 }
 
 type SutTypes = {
-  sut: AddSurveyRepository & LoadSurveysRepository & LoadSurveyByIdRepository
+  sut: AddSurveyRepository &
+    LoadSurveysRepository &
+    LoadSurveyByIdRepository &
+    CheckSurveyByIdRepository
 }
 
 const makeSutTypes = (): SutTypes => {
@@ -101,6 +106,28 @@ describe('Survey Mongo Repository', () => {
       const surveyFound = await sut.loadById(res.insertedId.toHexString())
       expect(surveyFound).toBeTruthy()
       expect(surveyFound.id).toBeTruthy()
+    })
+
+    test('should return null if survey does not exists', async () => {
+      const { sut } = makeSutTypes()
+      const surveyFound = await sut.loadById(new FakeObjectId().toHexString())
+      expect(surveyFound).toBeNull()
+    })
+  })
+
+  describe('checkById()', () => {
+    test('should return true if survey exists', async () => {
+      const { sut } = makeSutTypes()
+      const survey = mockAddSurveyParams()
+      const res = await surveyCollection.insertOne(survey)
+      const exists = await sut.checkById(res.insertedId.toHexString())
+      expect(exists).toBe(true)
+    })
+
+    test('should return false if survey does not exists', async () => {
+      const { sut } = makeSutTypes()
+      const exists = await sut.checkById(new FakeObjectId().toHexString())
+      expect(exists).toBe(false)
     })
   })
 })

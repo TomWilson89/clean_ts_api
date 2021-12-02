@@ -1,11 +1,11 @@
 import { LoadSurveyResultController } from '@presentation/controller'
 import { Controller } from '@presentation/protocols'
 import { makeLogControllerDecorator } from '../decorators'
-import { makeDbLoadSurveyById, makeDbLoadSurveyResult } from '../usecase'
+import { makeDbCheckSurveyById, makeDbLoadSurveyResult } from '../usecase'
 
 export const makeLoadSurveyResultController = (): Controller => {
   const loadSurveyResultController = new LoadSurveyResultController(
-    makeDbLoadSurveyById(),
+    makeDbCheckSurveyById(),
     makeDbLoadSurveyResult()
   )
   const logMongoRepository = makeLogControllerDecorator(
