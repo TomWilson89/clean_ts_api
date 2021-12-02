@@ -3,6 +3,7 @@ export type SurveyModel = {
   answers: SurveyAnswersModel[]
   date: Date
   id: string
+  didAnswer?: boolean
 }
 type SurveyAnswersModel = {
   image?: string
