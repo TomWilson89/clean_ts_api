@@ -2,6 +2,7 @@ import { DbLoadAccountByToken } from '@data/usecases'
 import { LoadAccountByToken } from '@domain/usecases'
 import faker from 'faker'
 import { DecryypterSpy, LoadAccountByTokenRepositorySpy } from '../mocks'
+
 type SutTypes = {
   sut: LoadAccountByToken
   decrypterSpy: DecryypterSpy
@@ -63,9 +64,9 @@ describe('DbLoadAccountByToken Usecase', () => {
     const { sut, decrypterSpy } = makeSut()
     jest.spyOn(decrypterSpy, 'decrypt').mockRejectedValueOnce(new Error())
 
-    const promise = sut.load('any_token', 'any_role')
+    const account = await sut.load(faker.datatype.uuid(), faker.random.word())
 
-    await expect(promise).rejects.toThrow()
+    expect(account).toBeNull()
   })
 
   test('should throw if LoadAccountByTokenRepository throws ', async () => {
@@ -74,7 +75,7 @@ describe('DbLoadAccountByToken Usecase', () => {
       .spyOn(loadAccountByTokenRepositorySpy, 'loadByToken')
       .mockRejectedValueOnce(new Error())
 
-    const promise = sut.load('any_token', 'any_role')
+    const promise = sut.load(faker.datatype.uuid(), faker.random.word())
 
     await expect(promise).rejects.toThrow()
   })
