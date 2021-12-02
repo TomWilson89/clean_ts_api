@@ -8,7 +8,10 @@ export class LoadAccountByTokenRepositorySpy
   role: string
   result = mockAccountModel()
 
-  async loadByToken(accessToken: string, role?: string): Promise<any> {
+  async loadByToken(
+    accessToken: string,
+    role?: string
+  ): Promise<LoadAccountByTokenRepository.Result> {
     this.accessToken = accessToken
     this.role = role
     return this.result
