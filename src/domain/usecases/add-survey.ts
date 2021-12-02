@@ -1,7 +1,17 @@
-import { SurveyModel } from '../models'
-
 export interface AddSurvey {
-  add: (data: AddSurveyParams) => Promise<void>
+  add: (data: AddSurvey.Params) => Promise<void>
 }
 
-export type AddSurveyParams = Omit<SurveyModel, 'id'>
+export namespace AddSurvey {
+  export type Params = {
+    question: string
+    answers: SurveyAnswersModel[]
+    date: Date
+    didAnswer?: boolean
+  }
+
+  type SurveyAnswersModel = {
+    image?: string
+    answer: string
+  }
+}

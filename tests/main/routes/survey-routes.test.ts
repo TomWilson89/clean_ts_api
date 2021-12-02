@@ -1,4 +1,4 @@
-import { AddSurveyParams } from '@domain/usecases'
+import { AddSurvey } from '@domain/usecases'
 import { MongoHelper } from '@infra/db'
 import app from '@main/config/app'
 import env from '@main/config/env'
@@ -24,7 +24,7 @@ const makeAccessToken = async (): Promise<string> => {
   return accessToken
 }
 
-const makeFakeSurveys = (): AddSurveyParams[] => {
+const makeFakeSurveys = (): AddSurvey.Params[] => {
   const surveys = [
     {
       question: 'Question 1',
