@@ -5,6 +5,7 @@ import {
   LoadSurveyByIdRepository,
   LoadSurveysRepository
 } from '@data/protocols/db/surveys'
+import { LoadAnswersBySurvey } from '@domain/usecases'
 import { MongoHelper, SurveyMongoRepository } from '@infra/db'
 import FakeObjectId from 'bson-objectid'
 import { Collection, ObjectId } from 'mongodb'
@@ -23,7 +24,8 @@ type SutTypes = {
   sut: AddSurveyRepository &
     LoadSurveysRepository &
     LoadSurveyByIdRepository &
-    CheckSurveyByIdRepository
+    CheckSurveyByIdRepository &
+    LoadAnswersBySurvey
 }
 
 const makeSutTypes = (): SutTypes => {
@@ -112,6 +114,25 @@ describe('Survey Mongo Repository', () => {
       const { sut } = makeSutTypes()
       const surveyFound = await sut.loadById(new FakeObjectId().toHexString())
       expect(surveyFound).toBeNull()
+    })
+  })
+
+  describe('loadAnswers()', () => {
+    test('should load answers on success', async () => {
+      const { sut } = makeSutTypes()
+      const survey = mockAddSurveyParams()
+      const res = await surveyCollection.insertOne(survey)
+      const answers = await sut.loadAnswers(res.insertedId.toHexString())
+      expect(answers).toEqual([
+        survey.answers[0].answer,
+        survey.answers[1].answer
+      ])
+    })
+
+    test('should return empty array if survey does not exists', async () => {
+      const { sut } = makeSutTypes()
+      const answers = await sut.loadAnswers(new FakeObjectId().toHexString())
+      expect(answers).toEqual([])
     })
   })
 
