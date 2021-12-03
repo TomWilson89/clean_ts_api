@@ -8,7 +8,7 @@ import {
 
 export const adaptResolver = async (
   controller: Controller,
-  args: any
+  args?: any
 ): Promise<any> => {
   const request: any = {
     ...(args || {})
