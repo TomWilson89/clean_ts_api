@@ -1,13 +1,15 @@
 import { AddSurvey } from '@domain/usecases'
 import { MongoHelper } from '@infra/db'
-import app from '@main/config/app'
+import { setupApp } from '@main/config/app'
 import env from '@main/config/env'
+import { Express } from 'express'
 import jwt from 'jsonwebtoken'
 import { Collection } from 'mongodb'
 import request from 'supertest'
 
 let surveysColletion: Collection
 let accountCollection: Collection
+let app: Express
 
 const makeAccessToken = async (): Promise<string> => {
   const newUser = await accountCollection.insertOne({
@@ -59,6 +61,7 @@ const makeFakeSurveys = (): AddSurvey.Params[] => {
 
 describe('Survey routes', () => {
   beforeAll(async () => {
+    app = await setupApp()
     await MongoHelper.connect(process.env.MONGO_URL)
   })
 
