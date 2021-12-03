@@ -32,6 +32,7 @@ const handleErrors = (response: any, errors: readonly GraphQLError[]): void => {
 export const setupApolloServer = (): ApolloServer =>
   new ApolloServer({
     schema,
+    context: ({ req }) => ({ req }),
     plugins: [
       {
         requestDidStart: async () => ({
