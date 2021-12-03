@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_versions: [14.x, 16.x]
+        node: ['14']
     steps:
       - uses: actions/checkout@v2
       - name: Get Current branch name
         run: echo "##[set-output name=name;]$(echo ${GITHUB_REF#refs/heads/})"
         shell: bash
         id: branch
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: |
           npm i -g yarn
