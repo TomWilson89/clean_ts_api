@@ -2,8 +2,6 @@ import {
   LoadSurveyResultRepository,
   SaveSurveyResultRepository
 } from '@data/protocols/'
-import { SurveyResultModel } from '@domain/models'
-import { SaveSurveyResultParams } from '@domain/usecases'
 import round from 'mongo-round'
 import { ObjectId } from 'mongodb'
 import { MongoHelper, QueryBuilder } from '.'
@@ -11,7 +9,7 @@ import { MongoHelper, QueryBuilder } from '.'
 export class SurveyResultMongoRepository
   implements SaveSurveyResultRepository, LoadSurveyResultRepository
 {
-  async save(surveyResult: SaveSurveyResultParams): Promise<void> {
+  async save(surveyResult: SaveSurveyResultRepository.Params): Promise<void> {
     const surveyResultCollection = await MongoHelper.getCollection(
       'surveyResults'
     )
@@ -35,7 +33,7 @@ export class SurveyResultMongoRepository
   async loadBySurveyId(
     surveyId: string,
     accountId: string
-  ): Promise<SurveyResultModel> {
+  ): Promise<LoadSurveyResultRepository.Result> {
     const surveyResultCollection = await MongoHelper.getCollection(
       'surveyResults'
     )
@@ -236,7 +234,7 @@ export class SurveyResultMongoRepository
       .build()
 
     const surveyResult = await surveyResultCollection
-      .aggregate<SurveyResultModel>(query)
+      .aggregate<LoadSurveyResultRepository.Result>(query)
       .toArray()
 
     return surveyResult.length ? surveyResult[0] : null
